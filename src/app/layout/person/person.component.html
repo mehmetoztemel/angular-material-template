@@ -1,0 +1,12 @@
+<mat-card class="card-margin" appearance="outlined">
+    <mat-card-title style="text-align: center;">
+        Persons
+    </mat-card-title>
+    <mat-card-content>
+        <div>
+            <app-custom-table [columns]="cols" [value]="data" [displayedColumns]="displayedColumns" [showPaginator]="true"
+                [showSorted]="true" [isNewActive]="true" (onNewClick)="openDetailDialog(null)">
+            </app-custom-table>
+        </div>
+    </mat-card-content>
+</mat-card> 

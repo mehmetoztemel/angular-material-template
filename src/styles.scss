@@ -1,1 +1,105 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: radial-gradient(circle, rgba(84, 110, 122, 1) 15%, rgba(47, 63, 71, 1) 85%);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+// we used this for mat card component to put middle
+.card-margin {
+    margin: 25px 25px 60px 25px;
+    // padding-top: 25px;
+}
+
+.mat-mdc-card-outlined {
+    box-shadow: rgba(130, 184, 197, 0.15) 0px 2px 8px !important;
+}
+
+/* Login and Register Card Settings*/
+.login-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    box-sizing: border-box;
+    height: 100vh; /* Dikey ortalamak için */
+    padding: 10px; /* Kenarlardan boşluk */
+}
+
+.login-card {
+    width: 100%; /* Kartın genişliğini %100 yap */
+    max-width: 400px; /* Maksimum genişlik belirle */
+    margin: 0 auto; /* Ortalamak için */
+    padding: 20px; /* İçerik için boşluk */
+    border-radius: 10px !important; /* Kenarları yuvarla */
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-actions-buttons {
+    width: 100%;
+}
+
+.card-action {
+    display: flex;
+    flex-direction: row; /* Varsayılan olarak yan yana */
+    padding: 16px !important;
+}
+
+@media screen and (max-width: 800px) {
+    /* Mobil cihazlar için */
+    .card-action {
+        flex-direction: column !important; /* Mobilde alt alta */
+    }
+}
+
+.mat-mdc-snack-bar-container {
+    &.error-snackbar {
+        --mdc-snackbar-container-color: #c62828;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    &.success-snackbar {
+        --mdc-snackbar-container-color: #388e3c;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+
+    &.warn-snackbar {
+        --mdc-snackbar-container-color: #ffeb3b;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+    }
+}
+
+.field-responsive {
+    display: flex;
+}
+
+@media screen and (max-width: 800px) {
+    .field-responsive {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.field-responsive-margin {
+    margin-right: 5px;
+}
+
+.button-float-right {
+    float: right;
+}
