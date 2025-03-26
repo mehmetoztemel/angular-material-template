@@ -104,7 +104,8 @@
   .mobile-label {
     width: 120px;
     font-weight: bold;
-    display: inline-table;
+    // display: inline-table;
+    display: contents;
     text-align: left !important;
   }
   .mat-mdc-header-row {

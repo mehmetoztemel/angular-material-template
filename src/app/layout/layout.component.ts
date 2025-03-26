@@ -31,23 +31,23 @@ export class LayoutComponent implements OnInit {
     ]).subscribe(result => {
       if (result.matches) {
         if (result.breakpoints[Breakpoints.XSmall]) {
-          // console.log('xs');
+          console.log('xs');
           this.appConfig.isMobile = true;
         }
         else if (result.breakpoints[Breakpoints.Small]) {
-          // console.log('s');
+          console.log('s');
           this.appConfig.isMobile = true;
         }
         else if (result.breakpoints[Breakpoints.Medium]) {
-          // console.log('m');
+          console.log('m');
           this.appConfig.isMobile = false;
         }
         else if (result.breakpoints[Breakpoints.Large]) {
-          // console.log('l');
+          console.log('l');
           this.appConfig.isMobile = false;
         }
         else if (result.breakpoints[Breakpoints.XLarge]) {
-          // console.log('xl');
+          console.log('xl');
           this.appConfig.isMobile = false;
         }
       }
