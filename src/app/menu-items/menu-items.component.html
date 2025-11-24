@@ -1,0 +1,36 @@
+<ng-container *ngFor="let item of menuItems">
+  <ng-container *ngIf="!item.SubItems">
+    <a mat-list-item [routerLink]="item.Path" routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{exact: true}">
+      <span class="menu-list-item" [matTooltip]="isCollapsed ? item.Label : null" matTooltipPosition="right"
+        [matTooltipDisabled]="!isCollapsed">
+        <mat-icon>{{item.Icon}}</mat-icon>
+        <span *ngIf="!isCollapsed">{{item.Label}}</span>
+      </span>
+    </a>
+  </ng-container>
+  <ng-container *ngIf="item.SubItems">
+    <!-- class.mat-elevation-z0 bu özellik subMenüsü olan menünün çerçevesini belirsiz hale getiriyor -->
+    <mat-expansion-panel [class.mat-elevation-z0]="true">
+      <mat-expansion-panel-header>
+        <span class="menu-list-item-submenu " [matTooltip]="isCollapsed ? item.Label : null"
+          matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
+          <mat-icon>{{item.Icon}}</mat-icon>
+          <span *ngIf="!isCollapsed" style="font-size: 16px; font-weight: normal;">{{item.Label}}</span>
+        </span>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <ng-container *ngFor="let subItem of item.SubItems">
+          <a mat-list-item [routerLink]="subItem.Path" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{exact: true}">
+            <span class="menu-list-item" [matTooltip]="isCollapsed ? subItem.Label : null"
+              matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
+              <mat-icon>{{ subItem.Icon }}</mat-icon>
+              <span *ngIf="!isCollapsed">{{ subItem.Label }}</span>
+            </span>
+          </a>
+        </ng-container>
+      </mat-nav-list>
+    </mat-expansion-panel>
+  </ng-container>
+</ng-container>

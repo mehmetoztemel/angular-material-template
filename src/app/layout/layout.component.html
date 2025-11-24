@@ -1,23 +1,24 @@
 <div class="layout-container">
   <mat-toolbar class="toolbar" color="primary">
-    <button mat-icon-button (click)="toggleMenu()">
+    <button mat-icon-button (click)="toggleMenu()" matTooltip="Toggle Menu">
       <mat-icon>menu</mat-icon>
     </button>
-    <span>Angular Material Template</span>
+    <span style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Angular Material</span>
     <span class="navbar-spacer"></span>
-    <div>
-      <!-- <button mat-icon-button matTooltip="Switch Apps">
-        <mat-icon>apps</mat-icon>
-      </button> -->
-      <button mat-icon-button matTooltip="Notifications">
+    <div style="display: flex; align-items: center; gap: 4px;">
+      <button mat-icon-button matTooltip="Notifications" style="position: relative;">
         <mat-icon>notifications</mat-icon>
+        <span style="position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: #f5576c; border-radius: 50%; border: 2px solid white;"></span>
       </button>
       <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="accountMenu">
         <mat-icon>account_circle</mat-icon>
       </button>
-      <mat-menu #accountMenu [overlapTrigger]="false">
+      <mat-menu #accountMenu [overlapTrigger]="false" style="margin-top: 8px;">
         <button mat-menu-item>
           <mat-icon>person</mat-icon><span>My Account</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon><span>Settings</span>
         </button>
         <button mat-menu-item>
           <mat-icon>help</mat-icon><span>Help</span>
@@ -35,42 +36,7 @@
       [opened]="appConfig.isMobile ? 'false' : 'true'" #sidenav>
       <!-- dinamik menü oluşturma -->
       <mat-nav-list class="nav">
-        <ng-container *ngFor="let item of menuItems">
-          <ng-container *ngIf="!item.SubItems">
-            <a mat-list-item [routerLink]="item.Path" routerLinkActive="active-link"
-              [routerLinkActiveOptions]="{exact: true}">
-              <span class="menu-list-item" [matTooltip]="isCollapsed ? item.Label : null" matTooltipPosition="right"
-                [matTooltipDisabled]="!isCollapsed">
-                <mat-icon>{{item.Icon}}</mat-icon>
-                <span *ngIf="!isCollapsed">{{item.Label}}</span>
-              </span>
-            </a>
-          </ng-container>
-          <ng-container *ngIf="item.SubItems">
-            <!-- class.mat-elevation-z0 bu özellik subMenüsü olan menünün çerçevesini belirsiz hale getiriyor -->
-            <mat-expansion-panel [class.mat-elevation-z0]="true">
-              <mat-expansion-panel-header>
-                <span class="menu-list-item-submenu " [matTooltip]="isCollapsed ? item.Label : null"
-                  matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
-                  <mat-icon>{{item.Icon}}</mat-icon>
-                  <span *ngIf="!isCollapsed" style="font-size: 16px; font-weight: normal;">{{item.Label}}</span>
-                </span>
-              </mat-expansion-panel-header>
-              <mat-nav-list>
-                <ng-container *ngFor="let subItem of item.SubItems">
-                  <a mat-list-item [routerLink]="subItem.Path" routerLinkActive="active-link"
-                    [routerLinkActiveOptions]="{exact: true}">
-                    <span class="menu-list-item" [matTooltip]="isCollapsed ? subItem.Label : null"
-                      matTooltipPosition="right" [matTooltipDisabled]="!isCollapsed">
-                      <mat-icon>{{ subItem.Icon }}</mat-icon>
-                      <span *ngIf="!isCollapsed">{{ subItem.Label }}</span>
-                    </span>
-                  </a>
-                </ng-container>
-              </mat-nav-list>
-            </mat-expansion-panel>
-          </ng-container>
-        </ng-container>
+        <app-menu-items [menuItems]="menuItems" [isCollapsed]="isCollapsed"></app-menu-items>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

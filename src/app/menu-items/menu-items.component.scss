@@ -1,0 +1,55 @@
+.menu-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-list-item-submenu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+:host ::ng-deep .mat-content {
+    margin-left: -0.5rem;
+}
+
+:host ::ng-deep .mat-expansion-panel-body {
+    padding: 0 15px 6px !important;
+}
+
+// seçili menü yada üzerine geldiğimizde soluna mavi imleç
+.active-link {
+    background: linear-gradient(90deg, rgba(30, 58, 138, 0.12) 0%, transparent 100%);
+    border-left: solid 4px #1e3a8a;
+    color: #1e3a8a;
+    font-weight: 600;
+    
+    mat-icon {
+        color: #1e3a8a;
+    }
+}
+
+.hover {
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: transform, border, background-color, color;
+}
+
+mat-list-item,
+a {
+    border: none;
+    box-sizing: border-box;
+    text-decoration: none;
+    border-radius: 0;
+    margin: 2px 0;
+    
+    &:hover {
+        cursor: pointer;
+        background: linear-gradient(90deg, rgba(30, 58, 138, 0.1) 0%, transparent 100%);
+        border-left: solid 4px #1e40af;         
+        mat-icon {
+            color: #1e3a8a;
+        }
+    }
+}

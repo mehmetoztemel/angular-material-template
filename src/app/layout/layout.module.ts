@@ -30,13 +30,15 @@ import { PersonComponent } from './person/person.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CustomTableComponent } from '../shared/components/custom-table/custom-table.component';
 import { PersonDetailComponent } from './person/person-detail/person-detail.component';
+import { MenuItemsComponent } from '../menu-items/menu-items.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     DashboardComponent,
     PersonComponent,
-    PersonDetailComponent
+    PersonDetailComponent,
+    MenuItemsComponent,
   ],
   imports: [
     CommonModule,

@@ -10,6 +10,8 @@
 
 .toolbar {
     z-index: 2;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 .navbar-spacer {
     flex: 1 1 auto;
@@ -17,17 +19,9 @@
 
 // Move the content down so that it won't be hidden by the toolbar
 mat-sidenav {
-    box-shadow: 6px 0 6px rgba(0, 0, 0, 0.1);
-    .menu-list-item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    .menu-list-item-submenu {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
 }
 
 // Move the content down so that it won't be hidden by the toolbar
@@ -39,45 +33,11 @@ mat-sidenav {
 // }
 
 mat-sidenav-content {
-    background-color: rgb(91 158 191 / 7%) !important; /* sonradan eklendi*/
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%) !important;
 }
 
 // we used this for navbar buttons like logout,user setting etc.
 //genişletilmiş
 .expanded {
-    width: 300px;
-}
-
-:host ::ng-deep .mat-content {
-    margin-left: -0.5rem;
-}
-
-:host ::ng-deep .mat-expansion-panel-body {
-    padding: 0 15px 6px !important;
-}
-
-// seçili menü yada üzerine geldiğimizde soluna mavi imleç
-.nav {
-    .active-link {
-        background-color: #e8f2f5;
-        border-left: solid 5px #0277bd;
-    }
-
-    .hover {
-        transition-duration: 400ms;
-        transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-        transition-property: transform, border, background-color;
-    }
-
-    mat-list-item,
-    a {
-        border: none;
-        box-sizing: border-box;
-        text-decoration: none;
-        &:hover {
-            cursor: pointer;
-            background-color: #e8f2f5;
-            border-left: solid 5px #0277bd;
-        }
-    }
+    width: 280px;
 }
