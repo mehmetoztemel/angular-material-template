@@ -1,0 +1,26 @@
+<a mat-list-item class="menu-item" 
+  [routerLink]="item().Path || null" (click)="nestedItemOpen.set(!nestedItemOpen())"
+  routerLinkActive="selected-menu-item" #rla="routerLinkActive" [activated]="rla.isActive"
+  [matTooltip]="collapsed() ? item().Label : null" matTooltipPosition="right" [matTooltipDisabled]="!collapsed()">
+  <mat-icon matListItemIcon>{{ item().Icon }}</mat-icon>
+  @if(!collapsed()) {
+  <span matListItemTitle>{{ item().Label }}</span>
+  }
+  @if(item().SubItems) {
+  <span matListItemMeta>
+    @if(nestedItemOpen()) {
+    <mat-icon>expand_less</mat-icon>
+    } @else {
+    <mat-icon>expand_more</mat-icon>
+    }
+  </span>
+  }
+</a>
+@if (nestedItemOpen() && item().SubItems) {
+<div class="nested-menu">
+  @for(subItem of item().SubItems; track subItem.Path) {
+  <app-menu-items [item]="subItem" [routeHistory]="routeHistory() + '/' + (item().Path || '')"
+    [collapsed]="collapsed()" />
+  }
+</div>
+}

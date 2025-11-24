@@ -1,0 +1,40 @@
+.menu-item {
+    border: none;
+    box-sizing: border-box;
+    text-decoration: none;
+    border-radius: 0;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-property: background-color, border, color;
+    --mat-list-list-item-leading-icon-end-space: 12px;
+    
+    mat-icon {
+        color: rgba(0, 0, 0, 0.87);
+    }
+    
+    &:hover {
+        cursor: pointer;
+        background: linear-gradient(90deg, rgba(30, 58, 138, 0.1) 0%, transparent 100%);
+        border-left: solid 4px #1e40af;
+        
+        mat-icon {
+            color: #1e3a8a;
+        }
+    }
+}
+
+// seçili menü - aktif link
+.selected-menu-item {
+    background: linear-gradient(90deg, rgba(30, 58, 138, 0.12) 0%, transparent 100%);
+    border-left: solid 4px #1e3a8a;
+    color: #1e3a8a;    
+    mat-icon {
+        color: #1e3a8a;
+    }
+}
+
+// İç içe menü için container
+.nested-menu {
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}

@@ -10,6 +10,5 @@ export const menuItems: MenuItem[] = [
     Path: '/person',
     Icon: 'groups',
     Label: 'Persons'
-    
   },
 ];

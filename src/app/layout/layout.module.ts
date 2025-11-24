@@ -30,7 +30,7 @@ import { PersonComponent } from './person/person.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CustomTableComponent } from '../shared/components/custom-table/custom-table.component';
 import { PersonDetailComponent } from './person/person-detail/person-detail.component';
-import { MenuItemsComponent } from '../menu-items/menu-items.component';
+import { MenuItemsComponent } from '../app-menu-items/app-menu-items.component';
 
 @NgModule({
   declarations: [
