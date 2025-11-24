@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AppConfig } from '../../../app.config';
 import { IDialogDataModel } from '../../../shared/models/components/dialogDataModel';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IPerson } from '../../../shared/models/person';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -15,7 +15,7 @@ export class PersonDetailComponent implements OnInit {
 
   person :IPerson;
   personDetailForm : FormGroup
-  constructor(public appConfig: AppConfig, @Inject(MAT_DIALOG_DATA) public dialogData:IDialogDataModel) { }
+  constructor(public appConfig: AppConfig, @Inject(MAT_DIALOG_DATA) public dialogData:IDialogDataModel, private personDetailDialog : MatDialogRef<PersonDetailComponent> ) { }
 
   ngOnInit() {
     if (this.dialogData?.componentData) {
@@ -35,5 +35,10 @@ export class PersonDetailComponent implements OnInit {
       phone: new FormControl(this.person?.phone, [Validators.required]),
       birthDate: new FormControl(this.person?.birthDate, [Validators.required])
     });
+  }
+
+  savePerson(){
+
+    this.personDetailDialog.close();
   }
 }

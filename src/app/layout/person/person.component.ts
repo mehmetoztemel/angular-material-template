@@ -76,9 +76,8 @@ export class PersonComponent implements OnInit {
     };
     let dialogRef = this.personDetailDialog.open(CustomDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result != undefined && result == true) {
         console.log(result);
-
       }
     });
   }
