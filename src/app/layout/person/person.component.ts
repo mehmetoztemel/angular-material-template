@@ -32,11 +32,11 @@ export class PersonComponent implements OnInit {
     this.symbolOpt = Utility.getUniqueOptionsByProperty(this.data, 'firstName');
 
     this.cols = [
-      { field: 'firstName', header: 'First Name', type: ColumnType.text, style: '20%', filter: ColumnType.dropDown },
+      { field: 'firstName', header: 'First Name', type: ColumnType.text, style: '20%', filter: ColumnType.multiSelect },
       { field: 'lastName', header: 'Last Name', type: ColumnType.text, style: '20%', filter: ColumnType.dropDown },
       { field: 'email', header: 'EMail', type: ColumnType.text, style: '20%', filter: ColumnType.text },
       { field: 'phone', header: 'Phone', type: ColumnType.text, style: '20%', filter: ColumnType.text },
-      { field: 'birthDate', header: 'Birth Date', type: ColumnType.date, style: '20%', filter: ColumnType.date },
+      { field: 'birthDate', header: 'BirthDate', type: ColumnType.date, style: '20%', filter: ColumnType.date },
       { field: 'Actions', header: 'Detail', buttonLabel: '', icon: "menu", type: ColumnType.button, style: '5%', color: "primary", click: this.openDetailDialog.bind(this) },
       { field: 'Actions1', header: 'Delete', buttonLabel: '', icon: "delete", type: ColumnType.button, style: '5%', color: "warn", click: this.deletePersonDialog.bind(this) }
     ];

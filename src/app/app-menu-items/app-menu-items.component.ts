@@ -11,11 +11,9 @@ export class MenuItemsComponent {
   item = input.required<MenuItem>();
   collapsed = input.required<boolean>();
   routeHistory = input('');
-
   level = computed(() => this.routeHistory().split('/').length - 1);
   indentation = computed(() =>
     this.collapsed() ? '16px' : `${16 + this.level() * 16}px`
   );
-
   nestedItemOpen = signal(false);
 }

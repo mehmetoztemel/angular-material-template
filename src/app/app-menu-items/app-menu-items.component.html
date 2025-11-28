@@ -1,4 +1,5 @@
 <a mat-list-item class="menu-item" 
+  [style.--mat-list-list-item-leading-icon-start-space]="indentation()"
   [routerLink]="item().Path || null" (click)="nestedItemOpen.set(!nestedItemOpen())"
   routerLinkActive="selected-menu-item" #rla="routerLinkActive" [activated]="rla.isActive"
   [matTooltip]="collapsed() ? item().Label : null" matTooltipPosition="right" [matTooltipDisabled]="!collapsed()">

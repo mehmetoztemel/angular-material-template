@@ -1,6 +1,8 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
@@ -38,7 +40,7 @@ import { AppConfig } from '../../../app.config';
   styleUrl: './custom-table.component.scss',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class CustomTableComponent implements OnInit {
+export class CustomTableComponent implements OnInit, OnDestroy {
 
   dropdownOptions: IDropdownOption[] = [];
   @Input() value: any[];
@@ -53,14 +55,45 @@ export class CustomTableComponent implements OnInit {
   @Output() dateInput: EventEmitter<MatDatepickerInputEvent<any>>
   @Output() onNewClick: EventEmitter<any> = new EventEmitter();
   dropDownOptionsMap: { [key: string]: IDropdownOption[] } = {};
+  private dropDownOptionsMapOriginal: { [key: string]: IDropdownOption[] } = {};
   @ViewChild(MatSort, { static: true }) sort: MatSort = new MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChildren(MatSelect) matSelects!: QueryList<MatSelect>;
+  @ViewChildren('inpt') dateInputs!: QueryList<ElementRef<HTMLInputElement>>;
   filterState: { [key: string]: any } = {};
+  private filterDebounce = new Subject<{ value: string, field: string }>();
+  private destroy$ = new Subject<void>();
 
-  constructor(public appConfig: AppConfig, private datePipe: DatePipe) {
+  constructor(
+    public appConfig: AppConfig, 
+    private datePipe: DatePipe,
+    private cdr: ChangeDetectorRef
+  ) {
   }
+  
   ngOnInit(): void {
     this.setData();
+    
+    // Text filter debounce setup
+    this.filterDebounce.pipe(
+      debounceTime(300),
+      distinctUntilChanged((prev, curr) => 
+        prev.value === curr.value && prev.field === curr.field
+      )
+    ).subscribe(({ value, field }) => {
+      if (value && value.trim()) {
+        this.filterState[field] = value.trim().toLowerCase();
+      } else {
+        delete this.filterState[field];
+      }
+      this.applyFilters();
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.filterDebounce.complete();
   }
 
   ngOnChanges() {
@@ -77,7 +110,7 @@ export class CustomTableComponent implements OnInit {
     }
   }
 
-  setData(source?: any[]) {
+  setData(source?: any[], skipDropdownUpdate: boolean = false) {
     if (source == null) {
       this.dataSource = new MatTableDataSource(this.value);
       this.dataSource.sort = this.sort;
@@ -86,7 +119,12 @@ export class CustomTableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(source);
       this.dataSource.sort = this.sort;
     }
-    this.updateDropdownOptions();
+    
+    // Dropdown options'ı sadece gerektiğinde güncelle
+    if (!skipDropdownUpdate) {
+      this.updateDropdownOptions();
+    }
+    
     this.dataSource.paginator = this.paginator;
   }
 
@@ -113,25 +151,23 @@ export class CustomTableComponent implements OnInit {
             }));
           }
           this.dropDownOptionsMap[column.field] = dropdownOptions;
+          this.dropDownOptionsMapOriginal[column.field] = [...dropdownOptions];
         }
       });
     }
   }
 
   textFilter(event: Event, colName: string) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    const filteredData = this.value.filter((item: Record<string, any>) => {
-      const columnValue = item[colName]?.toString().toLowerCase() || '';
-      return columnValue.includes(filterValue);
-    });
-    this.setData(filteredData);
-    this.onFilter.emit(filteredData);
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filterDebounce.next({ value: filterValue, field: colName });
   }
 
   dateFilter(event: Date | null, colName: string) {
     if (event) {
       const filterValue = this.datePipe.transform(event, 'yyyy-MM-dd');
-      this.filterState[colName] = filterValue;
+      if (filterValue) {
+        this.filterState[colName] = filterValue;
+      }
     } else {
       delete this.filterState[colName];
     }
@@ -165,33 +201,34 @@ export class CustomTableComponent implements OnInit {
 
   applyFilters(matSelect?: MatSelect) {
     let filteredData = [...this.value];
-    // type'ı 'date' olan column'un field adını bul
-    const dateColumn = this.columns.find(col => col.type === ColumnType.date)?.field;
 
     for (const colName in this.filterState) {
       const filterValue = this.filterState[colName];
+      const column = this.columns.find(col => col.field === colName);
+      
       if (Array.isArray(filterValue)) {
-        // Çoklu seçim filtresi uygula
-        filteredData = filteredData.filter((item: any) => filterValue.includes(item[colName]));
+        // Çoklu seçim filtresi
+        filteredData = filteredData.filter((item: any) => 
+          filterValue.includes(item[colName])
+        );
+      } else if (column?.type === ColumnType.date) {
+        // Tarih filtresi - daha güvenilir
+        filteredData = filteredData.filter((item: any) => {
+          const itemDate = this.datePipe.transform(item[colName], 'yyyy-MM-dd');
+          return itemDate === filterValue;
+        });
       } else {
-        if (colName === dateColumn) {
-          // Tarih filtresini uygula
-          filteredData = filteredData.filter((item: any) => {
-            const itemDate = new Date(item[colName]).toLocaleDateString();
-            const filterDate = new Date(filterValue).toLocaleDateString();
-            // Tarihlerin aynı olup olmadığını kontrol et
-            return itemDate === filterDate;
-          });
-        } else {
-          // Metin veya dropdown filtresi uygula
-          filteredData = filteredData.filter((item: any) =>
-            item[colName]?.toString().toLowerCase().includes(filterValue.toLowerCase())
-          );
-        }
+        // Text veya dropdown filtresi
+        filteredData = filteredData.filter((item: any) => {
+          const itemValue = item[colName]?.toString().toLowerCase() || '';
+          return itemValue.includes(filterValue.toLowerCase());
+        });
       }
     }
-    matSelect?.close()
-    this.setData(filteredData);
+    
+    matSelect?.close();
+    // Datayı güncelle VE dropdown seçeneklerini filtrelenmiş dataya göre yeniden hesapla
+    this.setData(filteredData, false);
     this.onFilter.emit(filteredData);
   }
   clearDropDownSelection(matSelect: MatSelect, colName: string) {
@@ -206,11 +243,56 @@ export class CustomTableComponent implements OnInit {
   }
 
   dropDownSearch(event: Event, col: IColumns) {
-    this.updateDropdownOptions();
     const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
-    this.dropDownOptionsMap[col.field] = this.dropDownOptionsMap[col.field].filter(option => {
-      const viewValue = option.viewValue ? option.viewValue.toString().toLowerCase() : '';
-      return viewValue.includes(filterValue);
+    const originalOptions = this.dropDownOptionsMapOriginal[col.field] || [];
+    
+    if (filterValue.trim()) {
+      this.dropDownOptionsMap[col.field] = originalOptions.filter(option => {
+        const viewValue = option.viewValue ? option.viewValue.toString().toLowerCase() : '';
+        return viewValue.includes(filterValue);
+      });
+    } else {
+      this.dropDownOptionsMap[col.field] = [...originalOptions];
+    }
+  }
+  
+  clearAllFilters() {
+    // Filter state'i temizle
+    this.filterState = {};
+    
+    // Tüm mat-select'leri temizle
+    if (this.matSelects) {
+      this.matSelects.forEach(select => {
+        select.value = Array.isArray(select.value) ? [] : null;
+      });
+    }
+    
+    // Tüm text inputları temizle (DOM'dan direkt erişerek - çok hızlı)
+    const textInputs = document.querySelectorAll('.filterElement[type="text"]') as NodeListOf<HTMLInputElement>;
+    textInputs.forEach(input => {
+      input.value = '';
     });
+    
+    // Tüm date inputları temizle
+    if (this.dateInputs) {
+      this.dateInputs.forEach(input => {
+        input.nativeElement.value = '';
+      });
+    }
+    
+    // Direkt dataSource'u güncelle (setData çağırmadan - en hızlı yöntem)
+    this.dataSource.data = this.value;
+    
+    // Dropdown seçeneklerini tüm dataya göre yeniden hesapla
+    this.updateDropdownOptions();
+    
+    // Change detection'u tetikle
+    this.cdr.detectChanges();
+    
+    this.onFilter.emit(this.value);
+  }
+  
+  getActiveFilterCount(): number {
+    return Object.keys(this.filterState).length;
   }
 }
