@@ -35,8 +35,9 @@
   <mat-sidenav-container style="height: 100%;" autosize="true">
     <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="appConfig.isMobile ? 'over' : 'side'"
       [opened]="appConfig.isMobile ? 'false' : 'true'" #sidenav>
+      
       <!-- dinamik menü oluşturma -->
-      <mat-nav-list >
+      <mat-nav-list>
         @for(item of menuItems; track item.Path) {
         <app-menu-items [item]="item" [collapsed]="isCollapsed" [routeHistory]="''"></app-menu-items>
         }

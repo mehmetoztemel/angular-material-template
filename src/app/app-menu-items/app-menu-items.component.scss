@@ -2,35 +2,69 @@
     border: none;
     box-sizing: border-box;
     text-decoration: none;
-    border-radius: 0;
+    border-radius: 8px;
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-property: background-color, border, color;
+    transition-property: background-color, border, color, transform;
+    --mat-list-list-item-leading-icon-start-space: 0px;
     --mat-list-list-item-leading-icon-end-space: 12px;
-    border-left: solid 4px transparent;
+    border-left: solid 3px transparent;
+    color: rgba(255, 255, 255, 0.85);
+    min-height: 48px !important;
     
     mat-icon {
-        color: rgba(0, 0, 0, 0.87);
+        color: rgba(255, 255, 255, 0.75);
+        transition: all 0.3s ease;
+    }
+    
+    span[matListItemTitle] {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    span[matListItemMeta] mat-icon {
+        color: rgba(255, 255, 255, 0.6);
     }
     
     &:hover {
         cursor: pointer;
-        background: linear-gradient(90deg, rgba(30, 58, 138, 0.1) 0%, transparent 100%);
-        border-left-color: #1e40af;
+        background: rgba(255, 255, 255, 0.08);
+        border-left-color: #42a5f5;
         
         mat-icon {
-            color: #1e3a8a;
+            color: #42a5f5;
+        }
+        
+        span[matListItemTitle] {
+            color: #ffffff;
         }
     }
 }
 
 // seçili menü - aktif link
 .selected-menu-item {
-    background: linear-gradient(90deg, rgba(30, 58, 138, 0.12) 0%, transparent 100%);
-    border-left-color: #1e3a8a;
-    color: #1e3a8a;    
+    background: rgba(66, 165, 245, 0.12);
+    border-left-color: #42a5f5;
+    color: #ffffff;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(66, 165, 245, 0.2);
+    
     mat-icon {
-        color: #1e3a8a;
+        color: #42a5f5 !important;
+    }
+    
+    span[matListItemTitle] {
+        color: #ffffff !important;
+        font-weight: 500;
+    }
+    
+    span[matListItemMeta] mat-icon {
+        color: #42a5f5 !important;
+    }
+    
+    &:hover {
+        background: rgba(66, 165, 245, 0.18);
     }
 }
 
@@ -38,4 +72,14 @@
 .nested-menu {
     overflow: hidden;
     transition: all 0.3s ease-in-out;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    
+    .menu-item {
+        margin: 0;
+        padding-left: 0;
+        border-radius: 6px;
+    }
 }
