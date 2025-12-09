@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 html,
 body {
@@ -8,7 +8,8 @@ body {
 }
 body {
     margin: 0;
-    font-family: 'Inter', 'Segoe UI', Roboto, "Helvetica Neue", sans-serif;
+    // font-family: 'Inter', 'Segoe UI', Roboto, "Helvetica Neue", sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     background: linear-gradient(135deg, #4a6fa5 0%, #6ba3d4 50%, #88c9f0 100%);
     background-attachment: fixed;
 }
