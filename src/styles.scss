@@ -138,8 +138,8 @@ body {
 
 // Scrollbar Styling
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -154,3 +154,9 @@ body {
         background: #94a3b8;
     }
 }
+
+// ::-webkit-scrollbar { width: 6px; height: 6px; }
+// ::-webkit-scrollbar-track { background: transparent; }
+// ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
+// ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.35); }
+
