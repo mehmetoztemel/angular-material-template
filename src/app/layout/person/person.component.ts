@@ -132,7 +132,8 @@ export class PersonComponent implements OnInit {
     dialogConfig.autoFocus = false;
     dialogConfig.data = <IDialogDataModel>{
       label: 'Bu kaydı silmek istediğinize emin misiniz?',
-      button1: 'Evet',
+      button1: 'Sil',
+      button1Color: 'warn',
       button2: 'Hayır',
     };
     let dialogRef = this.personDetailDialog.open(

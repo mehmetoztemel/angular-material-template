@@ -93,6 +93,12 @@
     min-height: 42px;
     min-width: 100px;
   }
+
+  .dialog-cancel-button:not(:disabled) {
+    background-color: var(--app-surface);
+    color: var(--app-text-primary);
+    border: 1px solid var(--app-border);
+  }
 }
 
 @media (max-width: 600px) {

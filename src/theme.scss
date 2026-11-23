@@ -86,9 +86,8 @@ $dark-theme: mat.m2-define-dark-theme(
 }
 
 // Mobile table actions use the same palette and contrast as their desktop buttons.
-@mixin mobile-action-colors($primary) {
-  @each $name,
-    $palette in (primary: $primary, accent: $app-accent, warn: $app-warn)
+@mixin mobile-action-colors($primary, $accent: $app-accent) {
+  @each $name, $palette in (primary: $primary, accent: $accent, warn: $app-warn)
   {
     .mobile-menu-action[data-color='#{$name}']:not([disabled]) {
       background: mat.m2-get-color-from-palette($palette);
@@ -108,4 +107,48 @@ $dark-theme: mat.m2-define-dark-theme(
 }
 .mobile-table-action-menu.mat-mdc-menu-panel {
   max-width: calc(100vw - 32px);
+}
+
+// Emit colors only: typography and density are shared by all theme packs.
+@each $name, $primary,
+  $accent
+    in (
+      ('emerald', mat.$m2-green-palette, mat.$m2-amber-palette),
+      ('ocean', mat.$m2-cyan-palette, mat.$m2-orange-palette),
+      ('amethyst', mat.$m2-deep-purple-palette, mat.$m2-pink-palette),
+      ('sunset', mat.$m2-deep-orange-palette, mat.$m2-teal-palette)
+    )
+{
+  $light-primary: mat.m2-define-palette($primary, 800, 400, 900);
+  $light-accent: mat.m2-define-palette($accent, 700, 400, 900);
+  $dark-primary: mat.m2-define-palette($primary, 200, 100, 400);
+  $dark-accent: mat.m2-define-palette($accent, 200, 100, 400);
+  body[data-palette='#{$name}'] {
+    @include mat.all-component-colors(
+      mat.m2-define-light-theme(
+        (
+          color: (
+            primary: $light-primary,
+            accent: $light-accent,
+            warn: $app-warn,
+          ),
+        )
+      )
+    );
+    @include mobile-action-colors($light-primary, $light-accent);
+    &.dark-theme {
+      @include mat.all-component-colors(
+        mat.m2-define-dark-theme(
+          (
+            color: (
+              primary: $dark-primary,
+              accent: $dark-accent,
+              warn: $app-warn,
+            ),
+          )
+        )
+      );
+      @include mobile-action-colors($dark-primary, $dark-accent);
+    }
+  }
 }

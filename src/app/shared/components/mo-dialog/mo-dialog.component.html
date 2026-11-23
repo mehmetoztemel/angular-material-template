@@ -2,11 +2,12 @@
   <header class="dialog-header">
     <span class="dialog-heading-icon"
       ><mat-icon>{{
-        data.component || data.card?.component
-          ? 'edit_note'
-          : data.label
-            ? 'help_outline'
-            : 'view_list'
+        data.icon ??
+          (data.component || data.card?.component
+            ? 'edit_note'
+            : data.label
+              ? 'help_outline'
+              : 'view_list')
       }}</mat-icon></span
     >
     <div class="dialog-heading">
@@ -65,7 +66,12 @@
 @if (data.button1 || data.button2) {
   <mat-dialog-actions class="dialog-action-buttons">
     @if (data.button2) {
-      <button type="button" mat-stroked-button (click)="closeDialog(false)">
+      <button
+        type="button"
+        mat-raised-button
+        class="dialog-cancel-button"
+        (click)="closeDialog(false)"
+      >
         {{ data.button2 }}
       </button>
     }
@@ -73,7 +79,7 @@
       <button
         type="button"
         mat-raised-button
-        color="primary"
+        [color]="data.button1Color ?? 'primary'"
         (click)="onSave()"
         [disabled]="data.formGroup?.invalid || data.card?.formGroup?.invalid"
       >

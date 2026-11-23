@@ -1,0 +1,36 @@
+<header class="page-heading">
+  <span class="page-icon"
+    ><mat-icon>{{ page.icon }}</mat-icon></span
+  >
+  <div>
+    <span class="eyebrow">ÖRNEK VERİLER</span>
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.description }}</p>
+  </div>
+</header>
+<section class="metrics" aria-label="Veri özeti">
+  @for (metric of page.metrics; track metric.label) {
+    <article class="metric">
+      <mat-icon>{{ metric.icon }}</mat-icon>
+      <div>
+        <p>{{ metric.label }}</p>
+        <strong>{{ metric.value }}</strong>
+      </div>
+    </article>
+  }
+</section>
+<p class="demo-note">
+  <mat-icon>info_outline</mat-icon>Bu sayfadaki tüm kayıtlar test amacıyla
+  üretilmiştir. Özetler tüm veri setini kapsar.
+</p>
+@for (currentPage of [page]; track currentPage.title) {
+  <section class="table-page" [attr.aria-label]="currentPage.title">
+    <mo-table
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+      [value]="currentPage.rows"
+      [showSorted]="true"
+      [showPaginator]="true"
+    />
+  </section>
+}

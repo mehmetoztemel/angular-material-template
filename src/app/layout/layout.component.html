@@ -25,6 +25,39 @@
     <span class="navbar-spacer"></span>
     <button
       mat-icon-button
+      [matMenuTriggerFor]="paletteMenu"
+      matTooltip="Renk paleti"
+      aria-label="Renk paleti seç"
+    >
+      <mat-icon>palette</mat-icon>
+    </button>
+    <mat-menu #paletteMenu="matMenu" class="palette-menu">
+      <div class="palette-menu-heading">
+        Renk paleti<small>Çalışma alanını kişiselleştir</small>
+      </div>
+      @for (palette of theme.palettes; track palette.id) {
+        <button
+          mat-menu-item
+          role="menuitemradio"
+          [attr.aria-checked]="theme.palette() === palette.id"
+          (click)="theme.selectPalette(palette.id)"
+        >
+          <span class="palette-option">
+            <span class="palette-swatches" aria-hidden="true"
+              ><i [style.background]="palette.surface"></i
+              ><i [style.background]="palette.color"></i
+              ><i [style.background]="palette.highlight"></i
+            ></span>
+            <span>{{ palette.name }}</span>
+            @if (theme.palette() === palette.id) {
+              <mat-icon class="palette-check">check</mat-icon>
+            }
+          </span>
+        </button>
+      }
+    </mat-menu>
+    <button
+      mat-icon-button
       [matTooltip]="
         theme.mode() === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç'
       "

@@ -39,7 +39,7 @@ describe('AuthInterceptor destinations', () => {
     new AuthInterceptor(new AppConfig()).intercept(
       new HttpRequest(
         'GET',
-        'https://nominatim.openstreetmap.org/search?q=Marmaris',
+        'https://nominatim.openstreetmap.org/search?q=Ankara',
       ),
       next,
     );
