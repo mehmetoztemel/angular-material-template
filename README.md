@@ -1,59 +1,62 @@
-# AngularMaterialTemplate
+# Material Workspace
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+Angular Material tabanlı yönetim paneli şablonu. Görsel düzen, Marmaris Portal UI projesindeki lacivert navigasyon, ortak yüzey renkleri, açık/koyu tema ve responsive form yaklaşımından uyarlanmıştır.
 
-## Development server
+## Gereksinimler
 
-To start a local development server, run:
+- Angular / Material 22
+- Node.js 24 LTS (en az 24.15) önerilir. Desteklenen alternatifler: Node 22.22.3+ veya 26+.
+- npm
 
-```bash
-ng serve
+## Çalıştırma
+
+```sh
+npm ci
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Uygulama: http://localhost:4200
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```sh
+npm run build
+npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Üretim çıktısı: `dist/angular-material-template/browser`.
 
-```bash
-ng generate --help
-```
+## Arayüz
 
-## Building
+- Açık/koyu tema tercihi tarayıcıda saklanır; dialog ve seçim panellerine de uygulanır.
+- Masaüstünde daraltılabilir, mobilde açılır navigasyon.
+- Mobil kişi kartları, açılır filtre/sıralama alanı, boş sonuç görünümü.
+- Klavye ile kullanılabilen menü, şifre gösterme ve dialog kapatma kontrolleri.
+- Kişi ekleme, düzenleme ve onaylı silme için oturum içi örnek akış.
 
-To build the project run:
+## Demo sınırları
 
-```bash
-ng build
-```
+Giriş ve kayıt ekranları gerçek bir kimlik servisine bağlı değildir. Giriş için herhangi bir dolu kullanıcı adı ve şifre kullanılabilir. Kayıt formu kullanıcı oluşturmaz; giriş ekranına döner. Kişi değişiklikleri bellekte tutulur ve sayfa yenilendiğinde veya kişi sayfasına yeniden girildiğinde sıfırlanır.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Gerçek kullanım için auth guard, interceptor ve kişi işlemlerini kendi API'nize bağlayın.
 
-## Running unit tests
+## Yükseltme
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Angular 19 → 20 → 21 → 22 sırasıyla resmi CLI, Core, CDK ve Material migration'ları uygulanmıştır. Zone.js tabanlı mevcut NgModule yapısı korunmuştur. Kontrol akışı şablonları `@if`, `@for` ve `@switch` biçimine taşınmıştır.
 
-```bash
-ng test
-```
+Yerel doğrulama için `.tooling/` altında Node 24 kurulabilir; bu dizin ve `.npm-cache/` Git'e dahil değildir. Makinedeki Node sürümü değiştirilmemiştir.
 
-## Running end-to-end tests
+## Marmaris Portal UI ile ortak altyapı
 
-For end-to-end (e2e) testing, run:
+Aşağıdaki dosyalar kaynak projeden doğrudan aktarılmıştır:
 
-```bash
-ng e2e
-```
+- `shared/components/mo-table/`: tipli kolonlar, istemci/sunucu modu, filtre taslakları, arama, sıralama, mobil işlem menüsü ve testler.
+- `styles.scss`, `theme.scss`, `form-styles.scss`: aynı açık/koyu renkler ve ortak form düzeni.
+- `shared/services/theme.service.ts`: aynı `app.theme` tercihi ve sistem teması desteği.
+- `mo-dialog`, görsel yükleme/önizleme bileşenleri.
+- API kapsamlı auth interceptor, mesaj ve loader altyapısı; Türkçe sayfalama ve pazartesi başlangıçlı takvim.
+- Environment dosyaları, modern `@angular/build` altyapısı ve aynı build bütçeleri (initial 2/5 MB, component style 6/10 kB).
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+`SharedUiModule` ortak bileşenleri dışarı açar. Tüm sayfalarda doğrudan `MoTableComponent<T>`, `IColumns<T>` ve `MoDialogComponent` kullanılır; tablo etiketi `mo-table` olmalıdır.
 
-## Additional Resources
+Hesabım → Profilim (`/account`) sayfasından ad, soyad, birim, unvan ve iletişim bilgileri düzenlenebilir. Profil mevcut sekmenin oturumunda saklanır; çıkışta veya yeni girişte temizlenir. Canlı profil API'si bağlı değildir.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Şablona uyarlanan farklar: kurum logosu ve portal menü/API içeriği yerine genel marka ve örnek kişi verisi; dialogda kullanılmayan PermissionService bağımlılığı kaldırıldı. Kaynak projedeki modüle özel iş ekranları aktarılmadı. Angular sürümü 22.3.0 olarak korunmuştur.

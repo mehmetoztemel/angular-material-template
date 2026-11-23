@@ -1,43 +1,111 @@
-// https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
+@use '@angular/material' as mat;
 
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
-@use "@angular/material" as mat;
-// Plus imports for other components in your app.
+// =============================================================
+//  Angular Material 2 (M2) theming
+//  Corporate blue palette · light + dark themes
+// =============================================================
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
+// ---- Custom corporate blue palette -------------------------
+$app-blue-palette: (
+  50: #e7eef7,
+  100: #c3d4eb,
+  200: #9bb8dd,
+  300: #729bcf,
+  400: #5485c5,
+  500: #3670bb,
+  600: #3068b3,
+  700: #295daa,
+  800: #2253a2,
+  900: #164193,
+  A100: #c7d8ff,
+  A200: #94b4ff,
+  A400: #6190ff,
+  A700: #477eff,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: rgba(0, 0, 0, 0.87),
+    A400: white,
+    A700: white,
+  ),
+);
 
-$theme-primary: mat.m2-define-palette(mat.$m2-blue-palette, 800);
-$theme-accent: mat.m2-define-palette(mat.$m2-yellow-palette, 700);
+$app-primary: mat.m2-define-palette($app-blue-palette, 700, 400, 900);
+$app-accent: mat.m2-define-palette(mat.$m2-amber-palette, 700, 400, 900);
+$app-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
-// The warn palette is optional (defaults to red).
-// $theme-warn: mat.m2-define-palette(mat.$m2-red-palette, 600);
-$theme-warn: mat.m2-define-palette(mat.$m2-red-palette);
+// ---- Typography --------------------------------------------
+$app-typography: mat.m2-define-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", Arial, sans-serif',
+);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
-
-
-$theme: mat.m2-define-light-theme(
+// ---- Light theme (default) ---------------------------------
+$light-theme: mat.m2-define-light-theme(
   (
     color: (
-      primary: $theme-primary,
-      accent: $theme-accent,
-      warn: $theme-warn
+      primary: $app-primary,
+      accent: $app-accent,
+      warn: $app-warn,
     ),
-    typography: mat.m2-define-typography-config(),
-    density: 0
+    typography: $app-typography,
+    density: 0,
   )
 );
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($theme);
+// ---- Dark theme --------------------------------------------
+$dark-theme: mat.m2-define-dark-theme(
+  (
+    color: (
+      primary: mat.m2-define-palette($app-blue-palette, 200, 100, 400),
+      accent: $app-accent,
+      warn: $app-warn,
+    ),
+    typography: $app-typography,
+    density: 0,
+  )
+);
+
+// Emit all component themes for the light theme by default.
+@include mat.all-component-themes($light-theme);
+
+// Dark theme is activated by toggling `.dark-theme` on <body>.
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+}
+
+// Mobile table actions use the same palette and contrast as their desktop buttons.
+@mixin mobile-action-colors($primary) {
+  @each $name,
+    $palette in (primary: $primary, accent: $app-accent, warn: $app-warn)
+  {
+    .mobile-menu-action[data-color='#{$name}']:not([disabled]) {
+      background: mat.m2-get-color-from-palette($palette);
+      color: mat.m2-get-color-from-palette($palette, default-contrast);
+      .mat-icon,
+      .mat-mdc-menu-item-text {
+        color: inherit;
+      }
+    }
+  }
+}
+@include mobile-action-colors($app-primary);
+.dark-theme {
+  @include mobile-action-colors(
+    mat.m2-define-palette($app-blue-palette, 200, 100, 400)
+  );
+}
+.mobile-table-action-menu.mat-mdc-menu-panel {
+  max-width: calc(100vw - 32px);
+}

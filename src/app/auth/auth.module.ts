@@ -13,10 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [ 
-    LoginComponent,
-    RegisterComponent
-  ],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -27,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatButtonModule,
     MatSlideToggleModule,
-    MatIconModule
-  ]
+    MatIconModule,
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

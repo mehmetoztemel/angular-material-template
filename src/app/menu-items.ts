@@ -1,15 +1,15 @@
-import { MenuItem } from "./shared/models/menuitem";
+import { MenuItem } from './shared/models/menuitem';
 
 export const menuItems: MenuItem[] = [
   {
     Path: '/dashboard',
     Icon: 'home',
-    Label: 'Dashboard'
+    Label: 'Dashboard',
   },
   {
     Path: '/person',
     Icon: 'groups',
-    Label: 'Persons'
+    Label: 'Persons',
   },
   {
     Path: '',
@@ -34,12 +34,12 @@ export const menuItems: MenuItem[] = [
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.1'
+            Label: 'Menu Item 3.1',
           },
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.2'
+            Label: 'Menu Item 3.2',
           },
           {
             Path: '',
@@ -49,21 +49,21 @@ export const menuItems: MenuItem[] = [
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.1'
+                Label: 'Menu Item 3.3.1',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.2'
+                Label: 'Menu Item 3.3.2',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.3'
-              }
-            ]
-          }
-        ]
+                Label: 'Menu Item 3.3.3',
+              },
+            ],
+          },
+        ],
       },
       {
         Path: '',
@@ -73,12 +73,12 @@ export const menuItems: MenuItem[] = [
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.1'
+            Label: 'Menu Item 3.1',
           },
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.2'
+            Label: 'Menu Item 3.2',
           },
           {
             Path: '',
@@ -88,21 +88,21 @@ export const menuItems: MenuItem[] = [
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.1'
+                Label: 'Menu Item 3.3.1',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.2'
+                Label: 'Menu Item 3.3.2',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.3'
-              }
-            ]
-          }
-        ]
+                Label: 'Menu Item 3.3.3',
+              },
+            ],
+          },
+        ],
       },
       {
         Path: '',
@@ -112,12 +112,12 @@ export const menuItems: MenuItem[] = [
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.1'
+            Label: 'Menu Item 3.1',
           },
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.2'
+            Label: 'Menu Item 3.2',
           },
           {
             Path: '',
@@ -127,21 +127,21 @@ export const menuItems: MenuItem[] = [
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.1'
+                Label: 'Menu Item 3.3.1',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.2'
+                Label: 'Menu Item 3.3.2',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.3'
-              }
-            ]
-          }
-        ]
+                Label: 'Menu Item 3.3.3',
+              },
+            ],
+          },
+        ],
       },
       {
         Path: '',
@@ -151,12 +151,12 @@ export const menuItems: MenuItem[] = [
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.1'
+            Label: 'Menu Item 3.1',
           },
           {
             Path: '',
             Icon: 'groups',
-            Label: 'Menu Item 3.2'
+            Label: 'Menu Item 3.2',
           },
           {
             Path: '',
@@ -166,22 +166,22 @@ export const menuItems: MenuItem[] = [
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.1'
+                Label: 'Menu Item 3.3.1',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.2'
+                Label: 'Menu Item 3.3.2',
               },
               {
                 Path: '',
                 Icon: 'groups',
-                Label: 'Menu Item 3.3.3'
-              }
-            ]
-          }
-        ]
+                Label: 'Menu Item 3.3.3',
+              },
+            ],
+          },
+        ],
       },
-    ]
+    ],
   },
 ];

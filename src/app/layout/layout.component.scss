@@ -1,71 +1,155 @@
+:host {
+  display: block;
+}
+
 .layout-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
 }
 
 .toolbar {
-    z-index: 2;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  min-height: 76px;
+  gap: 12px;
+  padding-inline: 20px;
+  background: var(--app-card-bg);
+  color: var(--app-text-primary);
+  border-bottom: 1px solid var(--app-border);
+  z-index: 2;
 }
+
 .navbar-spacer {
-    flex: 1 1 auto;
+  flex: 1;
 }
 
-// Profesyonel koyu sidebar tasarımı - navbar ile kontrast
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+
+  img {
+    border-radius: 50%;
+    background: white;
+  }
+
+  span {
+    display: grid;
+    line-height: 1.4;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  strong {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  small {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--app-text-secondary);
+  }
+}
+
+.account-button {
+  max-width: 240px;
+
+  span {
+    display: inline-block;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  }
+}
+
+.workspace {
+  flex: 1;
+  min-height: 0;
+}
+
 mat-sidenav {
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
-    border-right: none;
-    background: linear-gradient(180deg, #263238 0%, #37474f 50%, #455a64 100%);
-    
-    // Sidebar için özel scrollbar
-    // &::-webkit-scrollbar {
-    //     margin-left: -10px;
-    //     width: 6px;
-    // }
-    
-    // &::-webkit-scrollbar-track {
-    //     background: rgba(0, 0, 0, 0.2);
-    // }
-    
-    // &::-webkit-scrollbar-thumb {
-    //     background: rgba(255, 255, 255, 0.3);
-    //     border-radius: 3px;
-        
-    //     &:hover {
-    //         background: rgba(255, 255, 255, 0.4);
-    //     }
-    // }
+  background: var(--app-sidenav-bg);
+  border: none;
+  border-radius: 0;
+  width: 76px;
 }
 
-// Move the content down so that it won't be hidden by the toolbar
-// mat-sidenav-content {
-//     padding-top: 3.5rem;
-//     @media screen and (min-width: 600px) {
-//         padding-top: 4rem;
-//     }
-// }
+mat-sidenav.expanded {
+  width: 272px;
+}
+
+.nav-heading {
+  color: #b5c8e0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  padding: 28px 24px 12px;
+}
+
+mat-nav-list {
+  padding: 8px;
+}
 
 mat-sidenav-content {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%) !important;
+  background: var(--app-content-bg);
 }
 
-// Sidebar genişlik ayarları
-//genişletilmiş
-.expanded {
-    width: 260px;
+.page-content {
+  padding: 28px;
 }
 
-// Daraltılmış durumda
-mat-sidenav:not(.expanded) {
-    width: 72px;
-    
-    mat-nav-list {
-        padding-top: 8px;
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px;
+  background: var(--app-card-bg);
+  color: var(--app-accent);
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+@media (max-width: 600px) {
+  .toolbar {
+    padding-inline: 8px;
+    gap: 4px;
+    min-height: 64px;
+  }
+
+  .brand {
+    gap: 8px;
+
+    strong {
+      font-size: 13px;
     }
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .account-button {
+    min-width: 40px;
+    padding: 0 8px;
+
+    span {
+      display: none;
+    }
+  }
+
+  .page-content {
+    padding: 16px 12px;
+  }
 }

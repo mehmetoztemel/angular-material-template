@@ -1,0 +1,369 @@
+@if (isNewActive || getActiveFilterCount() > 0) {
+  <div class="table-toolbar">
+    <div class="table-actions">
+      @if (isNewActive) {
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="onNew()"
+        >
+          <mat-icon>control_point</mat-icon>Yeni
+        </button>
+      }
+      @if (getActiveFilterCount() > 0) {
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          class="clear-all-filters"
+          (click)="clearAllFilters()"
+        >
+          <mat-icon>filter_list_off</mat-icon>Tüm Filtreleri Temizle ({{
+            getActiveFilterCount()
+          }})
+        </button>
+      }
+    </div>
+  </div>
+}
+<div
+  class="table-scroll"
+  role="region"
+  aria-label="Kayıt listesi ve sütun filtreleri"
+  tabindex="0"
+  [attr.aria-busy]="loading"
+>
+  @if (isMobile && ((isFiltered && filterColumns.length) || showSorted)) {
+    <div class="mobile-filter-bar">
+      <button
+        mat-button
+        type="button"
+        (click)="mobileFiltersOpen = !mobileFiltersOpen"
+        [attr.aria-expanded]="mobileFiltersOpen"
+        aria-controls="mobile-table-filters"
+      >
+        <mat-icon>{{
+          mobileFiltersOpen ? 'filter_list_off' : 'filter_list'
+        }}</mat-icon>Filtreler
+        @if (getActiveFilterCount()) {
+          <span class="filter-count">{{ getActiveFilterCount() }}</span>
+        }
+      </button>
+    </div>
+    @if (mobileFiltersOpen) {
+      <div class="mobile-filters" id="mobile-table-filters">
+        @if (isFiltered) {
+          @for (column of filterColumns; track column.field) {
+            <div class="mobile-filter-field">
+              <span>{{ column.header }}</span>
+              <ng-container
+                *ngTemplateOutlet="columnFilter; context: { $implicit: column }"
+              ></ng-container>
+            </div>
+          }
+        }
+        @if (showSorted) {
+          <label class="mobile-filter-field"
+            >Sıralama
+            <select
+              #mobileSort
+              class="filterElement"
+              aria-label="Kayıt sıralaması"
+              [value]="mobileSortValue"
+              (change)="mobileSortChanged(mobileSort.value)"
+            >
+              <option value="">Varsayılan sıra</option>
+              @for (column of sortableColumns; track column.field) {
+                <option [value]="column.field + ':asc'">
+                  {{ column.header }} · Artan
+                </option>
+                <option [value]="column.field + ':desc'">
+                  {{ column.header }} · Azalan
+                </option>
+              }
+            </select>
+          </label>
+        }
+      </div>
+    }
+  }
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    [class.mobile-table]="isMobile"
+    matSort
+    [matSortDisabled]="!showSorted"
+    (matSortChange)="sortChanged($event)"
+  >
+    @for (column of columns; track column.field) {
+      <ng-container [matColumnDef]="column.field">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [class.action-column]="column.type === 'button'"
+          [style.width]="column.type === 'button' ? null : column.style"
+          [style.text-align]="column.align"
+        >
+          @if (column.type !== 'button') {
+            @if (showSorted && column.sortable !== false) {
+              <span [mat-sort-header]="column.field">{{ column.header }}</span>
+            } @else {
+              <span>{{ column.header }}</span>
+            }
+          } @else {
+            <span class="visually-hidden">{{ column.header }}</span>
+          }
+          @if (
+            !isMobile && isFiltered && column.filter && column.type !== 'button'
+          ) {
+            <ng-container
+              *ngTemplateOutlet="columnFilter; context: { $implicit: column }"
+            ></ng-container>
+          }
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          [class.action-column]="column.type === 'button'"
+          [style.width]="
+            isMobile || column.type === 'button' ? null : column.style
+          "
+          [style.text-align]="isMobile ? null : column.align"
+          [attr.data-label]="column.header"
+        >
+          @switch (column.type) {
+            @case ('date') {
+              {{ dateValue(row, column) | date: 'dd.MM.yyyy' }}
+            }
+            @case ('datetime') {
+              {{ dateValue(row, column) | date: 'dd.MM.yyyy HH:mm' }}
+            }
+            @case ('num0') {
+              {{ numberValue(row, column) | number: '.0-0' }}
+            }
+            @case ('num2') {
+              {{ numberValue(row, column) | number: '.2-2' }}
+            }
+            @case ('num5') {
+              {{ numberValue(row, column) | number: '.5-5' }}
+            }
+            @case ('button') {
+              <button
+                mat-raised-button
+                type="button"
+                class="table-action-button"
+                [class.icon-only]="!column.buttonLabel"
+                [color]="column.color"
+                [disabled]="actionDisabled(column, row)"
+                (click)="runAction($event, column, row)"
+                [attr.aria-label]="column.header"
+                [matTooltip]="column.header"
+                matTooltipPosition="above"
+              >
+                <mat-icon>{{ column.icon }}</mat-icon>{{ column.buttonLabel }}
+              </button>
+            }
+            @default {
+              {{ textValue(row, column) }}
+            }
+          }
+        </td>
+      </ng-container>
+    }
+    <ng-container [matColumnDef]="mobileActionsId">
+      <th mat-header-cell *matHeaderCellDef class="action-column">
+        <span class="visually-hidden">İşlemler</span>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        [class.mobile-row-actions]="isMobile"
+        [class.action-column]="!isMobile"
+      >
+        @if (!isMobile) {
+          <div class="desktop-row-actions">
+            @for (column of actionColumns; track column.field) {
+              <button
+                mat-raised-button
+                type="button"
+                class="table-action-button"
+                [class.icon-only]="!column.buttonLabel"
+                [color]="column.color"
+                [disabled]="actionDisabled(column, row)"
+                (click)="runAction($event, column, row)"
+                [attr.aria-label]="column.header"
+                [matTooltip]="column.header"
+                matTooltipPosition="above"
+              >
+                <mat-icon>{{ column.icon }}</mat-icon>{{ column.buttonLabel }}
+              </button>
+            }
+          </div>
+        } @else if (actionColumns.length === 1) {
+          @for (column of actionColumns; track column.field) {
+            <button
+              mat-raised-button
+              type="button"
+              class="mobile-single-action"
+              [color]="column.color"
+              [disabled]="actionDisabled(column, row)"
+              (click)="runAction($event, column, row)"
+            >
+              <mat-icon>{{ column.icon }}</mat-icon>{{
+                column.buttonLabel || column.header
+              }}
+            </button>
+          }
+        } @else {
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            class="mobile-actions-trigger"
+            [matMenuTriggerFor]="rowActions"
+            (click)="prepareActionMenu($event)"
+            aria-label="Kayıt işlemleri"
+          >
+            İşlemler <mat-icon iconPositionEnd>expand_more</mat-icon>
+          </button>
+          <mat-menu #rowActions="matMenu" class="mobile-table-action-menu">
+            <div class="mobile-menu-actions" [style.width.px]="actionMenuWidth">
+              @for (column of actionColumns; track column.field) {
+                <button
+                  mat-menu-item
+                  type="button"
+                  class="mobile-menu-action"
+                  [attr.data-color]="column.color"
+                  [disabled]="actionDisabled(column, row)"
+                  (click)="runAction($event, column, row)"
+                >
+                  <mat-icon>{{ column.icon }}</mat-icon><span>{{
+                    column.buttonLabel || column.header
+                  }}</span>
+                </button>
+              }
+            </div>
+          </mat-menu>
+        }
+      </td>
+    </ng-container>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="renderedColumnIds; sticky: true"
+      [class.mobile-header]="isMobile"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: renderedColumnIds"
+      [class.clickable-row]="rowClick.observed"
+      [attr.tabindex]="rowClick.observed ? 0 : null"
+      (click)="rowClick.emit(row)"
+      (keydown.enter)="
+        $event.target === $event.currentTarget && rowClick.emit(row)
+      "
+    ></tr>
+    <tr *matNoDataRow>
+      <td class="no-data-cell" [attr.colspan]="renderedColumnIds.length || 1">
+        <mat-icon>{{ loading ? 'hourglass_empty' : 'inbox' }}</mat-icon>
+        <span role="status">{{
+          loading ? 'Kayıtlar yükleniyor...' : 'Kayıt bulunamadı'
+        }}</span>
+      </td>
+    </tr>
+  </table>
+</div>
+@if (showPaginator) {
+  <mat-paginator
+    [length]="mode === 'server' ? totalRecords : dataSource.data.length"
+    [pageIndex]="currentPageIndex"
+    [pageSize]="currentPageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)"
+    showFirstLastButtons
+    aria-label="Tablo sayfalaması"
+  ></mat-paginator>
+}
+
+<ng-template #columnFilter let-column>
+  <div class="filterContent">
+    @switch (column.filter) {
+      @case ('text') {
+        <mat-icon class="filterIcon">text_fields</mat-icon>
+        <input
+          #textInput
+          matInput
+          type="text"
+          class="filterElement"
+          [value]="textValues[column.field] ?? ''"
+          (input)="textFilter(textInput.value, column.field)"
+          autocomplete="off"
+          [attr.aria-label]="column.header + ' filtresi'"
+          placeholder="Ara..."
+        />
+      }
+      @case ('numericText') {
+        <mat-icon class="filterIcon">numbers</mat-icon>
+        <input
+          #numberInput
+          matInput
+          type="text"
+          inputmode="decimal"
+          class="filterElement"
+          [value]="textValues[column.field] ?? ''"
+          (input)="textFilter(numberInput.value, column.field)"
+          autocomplete="off"
+          [attr.aria-label]="column.header + ' filtresi'"
+          placeholder="Ara..."
+        />
+      }
+      @case ('dropDown') {
+        <mo-table-select-filter
+          [label]="column.header"
+          [options]="dropDownOptionsMap[column.field] ?? []"
+          [value]="filterState[column.field] ?? null"
+          (valueChange)="selectionFilter($event, column.field)"
+        ></mo-table-select-filter>
+      }
+      @case ('multiSelect') {
+        <mo-table-select-filter
+          [label]="column.header"
+          [multiple]="true"
+          [options]="dropDownOptionsMap[column.field] ?? []"
+          [value]="filterState[column.field] ?? null"
+          (valueChange)="selectionFilter($event, column.field)"
+        ></mo-table-select-filter>
+      }
+      @case ('date') {
+        <mat-icon class="filterIcon">event_available</mat-icon>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          class="filterElement"
+          [value]="dateValues[column.field] ?? null"
+          (click)="picker.open()"
+          (keydown.enter)="picker.open()"
+          (keydown.space)="$event.preventDefault(); picker.open()"
+          (dateChange)="dateFilter($event.value, column.field)"
+          readonly
+          [attr.aria-label]="column.header + ' tarih filtresi'"
+          placeholder="Tarih seç..."
+        />
+        <mat-datepicker
+          #picker
+          [dateClass]="appConfig.dateClass"
+        ></mat-datepicker>
+      }
+    }
+    @if (hasFilter(column.field) && column.filter === 'date') {
+      <button
+        type="button"
+        class="filter-clear"
+        [attr.aria-label]="column.header + ' filtresini temizle'"
+        (click)="clearFilter(column.field)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </div>
+</ng-template>

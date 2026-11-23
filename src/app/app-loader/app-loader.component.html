@@ -1,4 +1,10 @@
-<div class="progress-loader" *ngIf="loading">
-    <mat-progress-spinner [mode]="'indeterminate'">
-    </mat-progress-spinner>
+<ng-template #loaderTemplate>
+  <div
+    class="progress-loader"
+    role="status"
+    aria-label="İşlem sürüyor"
+    aria-live="polite"
+  >
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
+</ng-template>

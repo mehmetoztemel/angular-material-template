@@ -1,12 +1,14 @@
-<mat-card class="card-margin" appearance="outlined">
-    <mat-card-title style="text-align: center;">
-        Persons
-    </mat-card-title>
-    <mat-card-content>
-        <div>
-            <app-custom-table [columns]="cols" [value]="data" [displayedColumns]="displayedColumns" [showPaginator]="true"
-                [showSorted]="true" [isNewActive]="true" (onNewClick)="openDetailDialog(null)">
-            </app-custom-table>
-        </div>
-    </mat-card-content>
-</mat-card> 
+<section class="table-page">
+  <h1 class="table-page-title">Kişiler</h1>
+  <div class="table-page-content">
+    <mo-table
+      [columns]="cols"
+      [value]="data"
+      [displayedColumns]="displayedColumns"
+      [showPaginator]="true"
+      [showSorted]="true"
+      [isNewActive]="true"
+      (onNewClick)="openDetailDialog(null)"
+    />
+  </div>
+</section>

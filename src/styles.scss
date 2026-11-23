@@ -1,162 +1,387 @@
-/* You can add global styles to this file, and also import other style files */
+@use './form-styles';
 
-// @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* =============================================================
+   Tema değişkenleri (açık / koyu)
+   `.dark-theme` sınıfı <body> üzerinde değişince tüm yüzey
+   renkleri otomatik olarak güncellenir. Material bileşenlerinin
+   renkleri ise theme.scss içindeki M2 dark teması ile yönetilir.
+   ============================================================= */
+:root {
+  /* Arka planlar */
+  --app-body-bg: #f3f6fb;
+  --app-content-bg: #f3f6fb;
+  --app-sidenav-bg: #17365d;
+  --app-card-bg: #ffffff;
+  --app-surface: #f5f7fa;
+
+  /* Scrollbar */
+  --app-scrollbar-track: #f1f5f9;
+  --app-scrollbar-thumb: #cbd5e1;
+  --app-scrollbar-thumb-hover: #94a3b8;
+
+  /* Accent & border */
+  --app-accent: #295daa;
+  --app-border: #dde5ef;
+  --app-shadow: 0 4px 24px rgba(23, 54, 93, 0.05);
+
+  /* Metin hiyerarşisi */
+  --app-text-primary: #1c304a;
+  --app-text-secondary: #53657c;
+  --app-text-muted: #66788e;
+
+  /* Semantik renkler */
+  --color-error: #c62828;
+  --color-success: #388e3c;
+  --color-warning: #f57f17;
+
+  /* Spinner */
+  --app-spinner-color: #295daa;
+
+  /* Sidebar */
+  --sidebar-text: rgba(255, 255, 255, 0.85);
+  --sidebar-icon: rgba(255, 255, 255, 0.75);
+  --sidebar-meta-icon: rgba(255, 255, 255, 0.6);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+  --sidebar-active-bg: rgba(41, 93, 170, 0.2);
+  --sidebar-accent: #7eaadc;
+  --sidebar-hover-text: #ffffff;
+  --sidebar-active-text: #ffffff;
+}
+
+body.dark-theme {
+  /* Arka planlar */
+  --app-body-bg: #101823;
+  --app-content-bg: #101823;
+  --app-sidenav-bg: #12263e;
+  --app-card-bg: #1a2635;
+  --app-surface: #1e242d;
+
+  /* Scrollbar */
+  --app-scrollbar-track: #161b22;
+  --app-scrollbar-thumb: #2d3742;
+  --app-scrollbar-thumb-hover: #3d4a57;
+
+  /* Accent & border */
+  --app-accent: #42a5f5;
+  --app-border: rgba(255, 255, 255, 0.12);
+  --app-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+
+  /* Metin hiyerarşisi */
+  --app-text-primary: rgba(255, 255, 255, 0.92);
+  --app-text-secondary: rgba(255, 255, 255, 0.7);
+  --app-text-muted: rgba(255, 255, 255, 0.45);
+
+  /* Semantik renkler */
+  --color-error: #ef5350;
+  --color-success: #66bb6a;
+  --color-warning: #ffa726;
+
+  /* Spinner */
+  --app-spinner-color: #42a5f5;
+
+  /* Sidebar */
+  --sidebar-text: rgba(255, 255, 255, 0.85);
+  --sidebar-icon: rgba(255, 255, 255, 0.75);
+  --sidebar-meta-icon: rgba(255, 255, 255, 0.6);
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+  --sidebar-active-bg: rgba(66, 165, 245, 0.12);
+  --sidebar-accent: #42a5f5;
+  --sidebar-hover-text: #ffffff;
+  --sidebar-active-text: #ffffff;
+}
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
+
 body {
-    margin: 0;
-    // font-family: 'Inter', 'Segoe UI', Roboto, "Helvetica Neue", sans-serif;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    background: linear-gradient(135deg, #4a6fa5 0%, #6ba3d4 50%, #88c9f0 100%);
-    background-attachment: fixed;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--app-body-bg);
+  color: var(--app-text-primary);
+  transition: background 0.3s ease;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .container {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
+// we used this for mat card component to put middle
 .card-margin {
-    margin: 24px;
-    padding-top: 0;
+  // margin: 25px 25px 60px 25px;
+  // padding-top: 25px;
+  margin: 0;
+  padding-top: 0;
 }
 
 .mat-mdc-card-outlined {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 1px 8px rgba(0, 0, 0, 0.06) !important;
-    border-radius: 16px !important;
-    border: none !important;
+  box-shadow: var(--app-shadow) !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--app-border) !important;
+  background: var(--app-card-bg) !important;
+}
+
+.mat-mdc-dialog-surface {
+  background: var(--app-card-bg) !important;
+  border-radius: 20px !important;
+}
+
+.card-margin > mat-card-title {
+  padding: 24px;
+  text-align: left !important;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--app-text-primary);
+  border-bottom: 1px solid var(--app-border);
+  margin-bottom: 20px;
+}
+.card-margin > mat-card-content {
+  padding: 0 24px 24px;
+}
+.table-page {
+  min-width: 0;
+}
+.table-page-title {
+  margin: 0 0 24px;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--app-text-primary);
+}
+.table-page-content {
+  min-width: 0;
+}
+:focus-visible {
+  outline: 3px solid var(--app-accent);
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  // MatTable creates these sections inside its own view, so component-scoped
+  // selectors cannot reach them. Reset their native table layout for cards.
+  mo-table table.mobile-table > tbody {
+    display: block;
+    width: 100%;
+  }
+  mo-table table.mobile-table > thead,
+  mo-table table.mobile-table > tfoot {
+    display: none;
+  }
+  .card-margin > mat-card-title {
+    padding: 18px;
+  }
+  .card-margin > mat-card-content {
+    padding: 0 16px 16px;
+  }
+  .field-responsive > mat-form-field {
+    width: 100% !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Login and Register Card Settings*/
 .login-container {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    box-sizing: border-box;
-    height: 100vh; /* Dikey ortalamak için */
-    padding: 10px; /* Kenarlardan boşluk */
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: 100vh;
+  /* Dikey ortalamak için */
+  padding: 10px;
+  /* Kenarlardan boşluk */
 }
 
 .login-card {
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
-    padding: 40px 36px;
-    border-radius: 20px !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
-    background: rgba(255, 255, 255, 0.98) !important;
-    backdrop-filter: blur(10px);
+  // width: 100%;
+  // /* Kartın genişliğini %100 yap */
+  // max-width: 400px;
+  // /* Maksimum genişlik belirle */
+  // margin: 0 auto;
+  // /* Ortalamak için */
+  // padding: 20px;
+  // /* İçerik için boşluk */
+  // border-radius: 10px !important;
+  // /* Kenarları yuvarla */
+  // box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1) !important;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 40px 36px;
+  border-radius: 20px !important;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  background: var(--app-card-bg) !important;
+  backdrop-filter: blur(10px);
 }
 
 .card-actions-buttons {
-    width: 100%;
+  width: 100%;
 }
 
 .card-action {
-    display: flex;
-    flex-direction: row; /* Varsayılan olarak yan yana */
-    padding: 16px !important;
+  display: flex;
+  flex-direction: row;
+  /* Varsayılan olarak yan yana */
+  padding: 16px !important;
 }
 
 @media screen and (max-width: 800px) {
-    /* Mobil cihazlar için */
-    .card-action {
-        flex-direction: column !important; /* Mobilde alt alta */
-    }
+  /* Mobil cihazlar için */
+  .card-action {
+    flex-direction: column !important;
+    /* Mobilde alt alta */
+  }
 }
 
 .mat-mdc-snack-bar-container {
-    &.error-snackbar {
-        --mdc-snackbar-container-color: #c62828;
-        --mat-mdc-snack-bar-button-color: #fff;
-        --mdc-snackbar-supporting-text-color: #fff;
-    }
+  &.error-snackbar {
+    --mat-snack-bar-container-color: var(--color-error);
+    --mat-snack-bar-button-color: #fff;
+    --mat-snack-bar-supporting-text-color: #fff;
+  }
 
-    &.success-snackbar {
-        --mdc-snackbar-container-color: #388e3c;
-        --mat-mdc-snack-bar-button-color: #fff;
-        --mdc-snackbar-supporting-text-color: #fff;
-    }
+  &.success-snackbar {
+    --mat-snack-bar-container-color: var(--color-success);
+    --mat-snack-bar-button-color: #fff;
+    --mat-snack-bar-supporting-text-color: #fff;
+  }
 
-    &.warn-snackbar {
-        --mdc-snackbar-container-color: #ffeb3b;
-        --mat-mdc-snack-bar-button-color: #fff;
-        --mdc-snackbar-supporting-text-color: #fff;
-    }
+  &.warn-snackbar {
+    --mat-snack-bar-container-color: var(--color-warning);
+    --mat-snack-bar-button-color: #fff;
+    --mat-snack-bar-supporting-text-color: #fff;
+  }
 }
 
 .field-responsive {
-    display: flex;
+  display: flex;
 }
 
 @media screen and (max-width: 800px) {
-    .field-responsive {
-        display: flex;
-        flex-direction: column;
-    }
+  .field-responsive {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .field-responsive-margin {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .button-float-right {
-    float: right;
+  float: right;
 }
 
+.btn-remove-image {
+  position: absolute;
+  cursor: pointer;
+  top: 20px;
+  right: 20px;
+  background-color: #e35656;
+  border-radius: 20%;
+  color: white;
+}
+
+.img-container {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+.img-border {
+  width: 90%;
+  border: 1px solid var(--app-border);
+  padding: 10px;
+  border-radius: 25px;
+}
 
 // Modern Button Styles
 .mat-mdc-raised-button {
-    border-radius: 8px !important;
-    // font-weight: 600 !important;
-    letter-spacing: 0.02em !important;
-    padding: 0 24px !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    
-    // &:hover {
-    //     transform: translateY(-2px);
-    //     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
-    // }
-}
+  border-radius: 8px !important;
+  // font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  padding: 0 24px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 
-// Stat Cards Animation
-.stat-card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    &:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2) !important;
-    }
+  // &:hover {
+  //     transform: translateY(-2px);
+  //     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+  // }
 }
 
 // Scrollbar Styling
+// ── Dark Mode: CDK Overlay (mat-select panel) ───────────────────
+body.dark-theme {
+  .mat-mdc-select-panel,
+  .mdc-menu-surface {
+    background: #1e242d !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .mat-mdc-option {
+    color: rgba(255, 255, 255, 0.85) !important;
+
+    &:hover:not(.mdc-list-item--disabled),
+    &.mat-mdc-option-active {
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    &.mdc-list-item--selected:not(.mat-mdc-option-multiple) {
+      background: rgba(66, 165, 245, 0.15) !important;
+      color: var(--app-accent) !important;
+    }
+  }
+
+  .mat-pseudo-checkbox-full {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked {
+    background-color: var(--app-accent) !important;
+    border-color: transparent !important;
+  }
+
+  // arama inputu (mo-table dropdown search)
+  .searchFilterInput {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.85);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+  }
+}
+
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f5f9;
+  background: var(--app-scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
-    
-    &:hover {
-        background: #94a3b8;
-    }
+  background: var(--app-scrollbar-thumb);
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--app-scrollbar-thumb-hover);
+  }
 }
-
-// ::-webkit-scrollbar { width: 6px; height: 6px; }
-// ::-webkit-scrollbar-track { background: transparent; }
-// ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
-// ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.35); }
-

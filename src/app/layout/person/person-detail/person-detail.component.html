@@ -1,55 +1,60 @@
-<mat-card appearance="outlined">
-  <mat-card-content>
-    <div>
-      <form [formGroup]="personDetailForm">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>First Name</mat-label>
-          <input matInput type="text" formControlName="firstName" required>
-          <mat-error *ngIf="personDetailForm.get('firstName').hasError('required')">
-            First Name is required
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Last Name</mat-label>
-          <input matInput type="text" formControlName="lastName" required>
-          <mat-error *ngIf="personDetailForm.get('lastName').hasError('required')">
-            Last Name is required
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Birth Date</mat-label>
-          <input matInput [matDatepicker]="startDatePicker" formControlName="birthDate"
-            (click)="startDatePicker.open()">
-          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #startDatePicker [dateClass]="appConfig.dateClass"></mat-datepicker>
-          <mat-error *ngIf="personDetailForm.get('birthDate').hasError('required')">
-            Birth Date is required
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" required>
-          <mat-error *ngIf="personDetailForm.get('email').hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="personDetailForm.get('email').hasError('email')">
-            Please enter a valid email address
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Phone</mat-label>
-          <input matInput type="text" formControlName="phone" required>
-          <mat-error *ngIf="personDetailForm.get('phone').hasError('required')">
-            Phone is required
-          </mat-error>
-        </mat-form-field>
-      </form>
-      <button mat-raised-button color="primary" class="button-float-right" [disabled]="!personDetailForm.valid">
-        <mat-icon>save</mat-icon><span>Save</span></button>
-    </div>
-  </mat-card-content>
-</mat-card>
+<form
+  class="entry-form entry-form-body"
+  [formGroup]="personDetailForm"
+  (ngSubmit)="savePerson()"
+>
+  <div class="form-section-heading">
+    <mat-icon>person_outline</mat-icon>
+    <h3>Kişi bilgileri</h3>
+  </div>
+  <div class="form-grid">
+    <mat-form-field appearance="outline"
+      ><mat-label>Ad</mat-label
+      ><input matInput formControlName="firstName" required /><mat-error
+        >Ad zorunludur.</mat-error
+      ></mat-form-field
+    >
+    <mat-form-field appearance="outline"
+      ><mat-label>Soyad</mat-label
+      ><input matInput formControlName="lastName" required /><mat-error
+        >Soyad zorunludur.</mat-error
+      ></mat-form-field
+    >
+    <mat-form-field appearance="outline"
+      ><mat-label>Doğum tarihi</mat-label
+      ><input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="birthDate"
+      /><mat-datepicker-toggle matSuffix [for]="picker" /><mat-datepicker
+        #picker
+      /><mat-error>Geçerli bir tarih girin.</mat-error></mat-form-field
+    >
+    <mat-form-field appearance="outline"
+      ><mat-label>Telefon</mat-label
+      ><input matInput type="tel" formControlName="phone" required /><mat-error
+        >Telefon zorunludur.</mat-error
+      ></mat-form-field
+    >
+    <mat-form-field class="span-full" appearance="outline"
+      ><mat-label>E-posta</mat-label
+      ><input
+        matInput
+        type="email"
+        formControlName="email"
+        required
+      /><mat-error>Geçerli bir e-posta adresi girin.</mat-error></mat-form-field
+    >
+  </div>
+  <footer class="form-actions">
+    <span class="form-action-hint">Değişiklikler bu oturumda tutulur.</span
+    ><button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="personDetailForm.invalid"
+    >
+      <mat-icon>save</mat-icon>Kaydet
+    </button>
+  </footer>
+</form>

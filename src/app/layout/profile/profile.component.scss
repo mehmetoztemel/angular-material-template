@@ -1,0 +1,135 @@
+:host {
+  display: block;
+  max-width: 1280px;
+  margin: auto;
+}
+.page-heading {
+  margin-bottom: 28px;
+  h1 {
+    font-size: 28px;
+    margin: 8px 0;
+    letter-spacing: -0.5px;
+  }
+  > span {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    color: var(--app-accent);
+  }
+  p {
+    margin: 0;
+    color: var(--app-text-secondary);
+    line-height: 1.6;
+  }
+}
+.profile-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.profile-summary {
+  border: 1px solid var(--app-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  background: var(--app-card-bg);
+  box-shadow: var(--app-shadow);
+  text-align: center;
+  overflow-wrap: anywhere;
+  h2 {
+    margin: 16px 0 8px;
+    font-size: 20px;
+  }
+  > p {
+    margin: 4px 0;
+    color: var(--app-text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--app-accent) 12%, transparent);
+  color: var(--app-accent);
+  font-size: 28px;
+  font-weight: 600;
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+}
+.summary-detail {
+  display: flex;
+  gap: 10px;
+  text-align: left;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--app-border);
+  font-size: 14px;
+  color: var(--app-text-secondary);
+  span {
+    min-width: 0;
+  }
+}
+.session-note {
+  display: flex;
+  gap: 10px;
+  text-align: left;
+  padding: 16px;
+  margin-top: 24px;
+  background: var(--app-surface);
+  border-radius: 10px;
+  p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--app-text-secondary);
+  }
+}
+.summary-detail mat-icon,
+.session-note mat-icon {
+  flex-shrink: 0;
+  color: var(--app-accent);
+}
+.profile-card {
+  overflow: hidden;
+  min-width: 0;
+}
+.form-section-heading p {
+  font-size: 14px;
+}
+.form-section-heading h3 {
+  font-size: 16px;
+}
+.feedback {
+  font-size: 14px;
+  color: var(--app-accent);
+  line-height: 1.6;
+  &.error {
+    color: var(--color-error);
+  }
+}
+.form-actions {
+  position: static;
+  flex-wrap: wrap;
+}
+@media (max-width: 1000px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .form-actions {
+    gap: 10px;
+  }
+  .form-actions button {
+    width: 100%;
+  }
+}

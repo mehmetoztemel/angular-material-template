@@ -1,11 +1,59 @@
 :host {
-    display: block;
+  display: block;
+}
+.login-container {
+  min-height: 100dvh;
+  height: auto;
+  padding: 64px 32px;
+  justify-content: center;
+}
+.login-shell {
+  width: min(480px, 100%);
+}
+.login-card {
+  box-sizing: border-box;
+  padding: 36px 28px;
+  margin: 0;
+  max-width: 480px;
+  width: 100%;
+  background: var(--app-card-bg) !important;
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow) !important;
+  border-radius: 20px !important;
+}
+.login-logo {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  background: white;
+}
+.login-submit {
+  width: 100%;
+  height: 48px;
+  margin-top: 28px;
+}
+@media (max-width: 800px) {
+  .login-container {
+    padding: 64px 20px 28px;
   }
-  
-  .img-center{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    // margin-bottom: 10px;
-    width: 200px;
+  .login-card {
+    padding: 24px 8px;
   }
+}
+.login-heading {
+  text-align: center;
+  font-size: 24px;
+  margin: 0 0 28px;
+  color: var(--app-text-primary);
+}
+.login-note {
+  color: var(--app-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+a {
+  color: var(--app-accent);
+}

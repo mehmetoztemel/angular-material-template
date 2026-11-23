@@ -1,0 +1,277 @@
+// Shared entry forms. Scoped so list pages and dashboards keep their layout.
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  max-width: calc(100vw - 32px) !important;
+}
+
+.entry-form {
+  display: block;
+  min-width: 0;
+}
+
+.entry-form-body {
+  padding: 24px;
+}
+
+.entry-form .mat-mdc-form-field {
+  min-width: 0;
+}
+
+.entry-form textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.entry-form .field-responsive {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.entry-form .field-responsive > .mat-mdc-form-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-form .field-responsive-margin {
+  margin-right: 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 20px;
+}
+
+.form-grid .span-full {
+  grid-column: 1 / -1;
+}
+
+.form-section {
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.form-section + .form-section {
+  padding-top: 24px;
+  border-top: 1px solid var(--app-border);
+}
+
+.form-section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-section-heading > mat-icon {
+  color: var(--app-accent);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.form-section-heading h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--app-text-primary);
+  line-height: 1.5;
+}
+
+.form-section-heading p {
+  margin: 3px 0 0;
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px !important;
+  margin: 24px -24px -24px;
+  border-top: 1px solid var(--app-border);
+  background: var(--app-card-bg);
+}
+
+.entry-form .button-float-right {
+  float: none;
+}
+
+.form-actions > .form-action-hint {
+  margin: 0 auto 0 0;
+  color: var(--app-text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.form-actions button {
+  min-height: 44px;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.form-location {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+}
+
+.form-location > button {
+  min-height: 56px;
+}
+
+.upload-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 1px dashed var(--app-border);
+  border-radius: 10px;
+  background: var(--app-surface);
+}
+
+.upload-area > mat-icon {
+  color: var(--app-accent);
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.upload-area-copy {
+  flex: 1;
+  min-width: 0;
+
+  strong {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--app-text-secondary);
+    font-size: 12px;
+  }
+}
+
+.upload-area button {
+  flex-shrink: 0;
+}
+
+.entry-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.entry-gallery figure {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--app-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--app-surface);
+}
+
+.entry-gallery .image-preview-trigger {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--app-surface);
+  color: var(--app-text-primary);
+  cursor: zoom-in;
+}
+
+.entry-gallery img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+}
+
+.entry-gallery figcaption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 12px;
+  font-size: 12px;
+  color: var(--app-text-secondary);
+  border-top: 1px solid var(--app-border);
+  background: var(--app-card-bg);
+}
+
+.entry-gallery figcaption > span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.entry-gallery .remove-image {
+  flex-shrink: 0;
+  background: var(--color-error);
+  color: white;
+  border-radius: 8px;
+}
+
+.entry-gallery .remove-image mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+@media (max-width: 700px) {
+  .entry-form-body {
+    padding: 18px 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-form .field-responsive {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .entry-form .field-responsive > .mat-mdc-form-field {
+    width: 100% !important;
+  }
+
+  .form-actions {
+    padding: 14px 16px !important;
+    margin: 20px -16px -18px;
+  }
+
+  .form-action-hint {
+    max-width: 55%;
+  }
+
+  .upload-area {
+    flex-wrap: wrap;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .upload-area button {
+    width: 100%;
+  }
+
+  .form-location {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 20px;
+  }
+}

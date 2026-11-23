@@ -1,17 +1,20 @@
-import { FormGroup } from "@angular/forms";
-import { IColumns } from "./columns";
-import { Type } from "@angular/core";
+import { FormGroup } from '@angular/forms';
+import { IColumns } from './columns';
+import { IFormComponent } from './formComponent';
+import { Type } from '@angular/core';
 
-export interface IDialogDataModel {
-    header: string, 
-    table?: any[], 
-    col?: IColumns[],
-    dspCol?: string[],
-    formGroup?:FormGroup,
-    button1?:string,
-    button2:string,
-    card?:IDialogDataModel,
-    label: string,
-    component?: Type<unknown>;
-    componentData : any;
+export interface IDialogDataModel<T extends object = Record<string, unknown>> {
+  header: string;
+  description?: string;
+  table?: T[];
+  col?: IColumns<T>[];
+  dspCol?: string[];
+  formType?: IFormComponent[];
+  formGroup?: FormGroup;
+  button1?: string;
+  button2: string;
+  card?: IDialogDataModel<T>;
+  label: string;
+  component?: Type<unknown>;
+  componentData: any;
 }

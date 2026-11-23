@@ -1,0 +1,122 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 92dvh;
+  color: var(--app-text-primary);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--app-border);
+  flex-shrink: 0;
+  background: var(--app-card-bg);
+}
+
+.dialog-heading-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  color: var(--app-accent);
+  background: color-mix(in srgb, var(--app-accent) 9%, transparent);
+}
+
+.dialog-heading {
+  flex: 1;
+  min-width: 0;
+
+  h2 {
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--app-text-primary);
+
+    &::before {
+      display: none;
+    }
+  }
+
+  p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--app-text-secondary);
+    line-height: 1.5;
+  }
+}
+
+.dialog-header button {
+  color: var(--app-text-secondary);
+  flex-shrink: 0;
+}
+
+.dialog-content {
+  padding: 0 !important;
+  max-height: none;
+  min-height: 0;
+  flex: 1 1 auto;
+  color: var(--app-text-primary);
+}
+
+.dialog-card-content,
+.dialog-table {
+  padding: 24px;
+}
+
+.dialog-card-content h3 {
+  margin: 0 0 20px;
+}
+
+.dialog-message {
+  margin: 0;
+  padding: 28px 24px;
+  line-height: 1.7;
+}
+
+.dialog-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--app-border);
+  margin: 0;
+  flex-shrink: 0;
+
+  button {
+    min-height: 42px;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  :host {
+    max-height: 94dvh;
+  }
+
+  .dialog-header {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .dialog-heading h2 {
+    font-size: 18px;
+  }
+
+  .dialog-heading-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .dialog-action-buttons,
+  .dialog-card-content,
+  .dialog-table {
+    padding: 16px;
+  }
+}

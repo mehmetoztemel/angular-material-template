@@ -1,50 +1,82 @@
 <div class="layout-container">
-  <mat-toolbar class="toolbar" color="primary">
-    <button mat-icon-button (click)="toggleMenu()" matTooltip="Toggle Menu">
+  <a class="skip-link" href="#main-content">İçeriğe geç</a>
+  <mat-toolbar class="toolbar">
+    <button
+      mat-icon-button
+      (click)="toggleMenu()"
+      aria-label="Gezinme menüsünü aç veya kapat"
+      [attr.aria-expanded]="
+        appConfig.isMobile ? (matSideNav?.opened ?? false) : !isCollapsed
+      "
+      aria-controls="portal-navigation"
+    >
       <mat-icon>menu</mat-icon>
     </button>
-    <!-- <span style="font-size: 20px; font-weight: 600; letter-spacing: -0.02em;">Angular Material</span> -->
-    <span>Angular Material</span>
+    <a
+      class="brand"
+      routerLink="/dashboard"
+      aria-label="Material Workspace ana sayfa"
+    >
+      <mat-icon>widgets</mat-icon>
+      <span
+        ><strong>Material Workspace</strong><small>Yönetim Portalı</small></span
+      >
+    </a>
     <span class="navbar-spacer"></span>
-    <div style="display: flex; align-items: center; gap: 4px;">
-      <button mat-icon-button matTooltip="Notifications" style="position: relative;">
-        <mat-icon>notifications</mat-icon>
-        <span style="position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: #f5576c; border-radius: 50%; border: 2px solid white;"></span>
+    <button
+      mat-icon-button
+      [matTooltip]="
+        theme.mode() === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç'
+      "
+      [attr.aria-label]="
+        theme.mode() === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç'
+      "
+      (click)="theme.toggle()"
+    >
+      <mat-icon>{{
+        theme.mode() === 'dark' ? 'light_mode' : 'dark_mode'
+      }}</mat-icon>
+    </button>
+    <button
+      mat-button
+      class="account-button"
+      [matMenuTriggerFor]="accountMenu"
+      aria-label="Hesap menüsü"
+    >
+      <mat-icon>account_circle</mat-icon
+      ><span>{{ account.displayName() }}</span>
+    </button>
+    <mat-menu #accountMenu>
+      <button mat-menu-item routerLink="/account">
+        <mat-icon>person_outline</mat-icon><span>Profilim</span>
       </button>
-      <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="accountMenu">
-        <mat-icon>account_circle</mat-icon>
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon><span>Çıkış yap</span>
       </button>
-      <mat-menu #accountMenu [overlapTrigger]="false" style="margin-top: 8px;">
-        <button mat-menu-item>
-          <mat-icon>person</mat-icon><span>My Account</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon><span>Settings</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>help</mat-icon><span>Help</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="logOut()">
-          <mat-icon>exit_to_app</mat-icon>Logout
-        </button>
-      </mat-menu>
-    </div>
+    </mat-menu>
   </mat-toolbar>
-
-  <mat-sidenav-container style="height: 100%;" autosize="true">
-    <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="appConfig.isMobile ? 'over' : 'side'"
-      [opened]="appConfig.isMobile ? 'false' : 'true'" #sidenav>
-      
-      <!-- dinamik menü oluşturma -->
-      <mat-nav-list>
-        @for(item of menuItems; track item.Path) {
-        <app-menu-items [item]="item" [collapsed]="isCollapsed" [routeHistory]="''"></app-menu-items>
+  <mat-sidenav-container class="workspace" autosize>
+    <mat-sidenav
+      id="portal-navigation"
+      [class.expanded]="!isCollapsed"
+      [mode]="appConfig.isMobile ? 'over' : 'side'"
+      [opened]="!appConfig.isMobile"
+      #sidenav
+    >
+      <mat-nav-list aria-label="Ana gezinme">
+        @for (item of menuItems; track $index) {
+          <app-menu-items
+            [item]="item"
+            [collapsed]="isCollapsed"
+            [routeHistory]="''"
+          ></app-menu-items>
         }
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <router-outlet></router-outlet>
+      <main id="main-content" tabindex="-1" class="page-content">
+        <router-outlet></router-outlet>
+      </main>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

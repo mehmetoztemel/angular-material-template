@@ -1,74 +1,66 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 import { menuItems } from '../menu-items';
 import { AppConfig } from '../app.config';
+import { ThemeService } from '../shared/services/theme.service';
+import { ProfileService } from '../shared/services/profile.service';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
-  changeDetection: ChangeDetectionStrategy.Default,
-  standalone: false
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class LayoutComponent implements OnInit {
   @ViewChild(MatSidenav) matSideNav: MatSidenav;
+  private readonly destroyRef = inject(DestroyRef);
+  readonly theme = inject(ThemeService);
   isCollapsed = false;
-  userInfo: string;
+  readonly account = inject(ProfileService);
   menuItems = menuItems;
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router, public appConfig: AppConfig) { }
-
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router: Router,
+    public appConfig: AppConfig,
+  ) {}
   ngOnInit(): void {
-    this.userInfo = localStorage.getItem("UserInfo");
-
-    this.breakpointObserver.observe([
-      Breakpoints.XSmall,
-      Breakpoints.Small,
-      Breakpoints.Medium,
-      Breakpoints.Large,
-      Breakpoints.XLarge
-    ]).subscribe(result => {
-      if (result.matches) {
-        if (result.breakpoints[Breakpoints.XSmall]) {
-          console.log('xs');
-          this.appConfig.isMobile = true;
-        }
-        else if (result.breakpoints[Breakpoints.Small]) {
-          console.log('s');
-          this.appConfig.isMobile = true;
-        }
-        else if (result.breakpoints[Breakpoints.Medium]) {
-          console.log('m');
-          this.appConfig.isMobile = false;
-        }
-        else if (result.breakpoints[Breakpoints.Large]) {
-          console.log('l');
-          this.appConfig.isMobile = false;
-        }
-        else if (result.breakpoints[Breakpoints.XLarge]) {
-          console.log('xl');
-          this.appConfig.isMobile = false;
-        }
-      }
-    });
+    this.breakpointObserver
+      .observe('(max-width: 959px)')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        this.appConfig.isMobile = result.matches;
+      });
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        if (this.appConfig.isMobile) this.matSideNav.close();
+      });
   }
-
-  toggleMenu() {
+  toggleMenu(): void {
     if (this.appConfig.isMobile) {
-      this.matSideNav.toggle();
       this.isCollapsed = false;
-    } else {
-      this.matSideNav.open();
-      this.isCollapsed = !this.isCollapsed;
-    }
+      this.matSideNav.toggle();
+    } else this.isCollapsed = !this.isCollapsed;
   }
-
-  logOut() {
-    const rememberMe = localStorage.getItem("rememberMe");
-    if (rememberMe == null) {
-      localStorage.clear();
-    }
-    this.router.navigateByUrl('auth/login');
+  logOut(): void {
+    this.account.clear();
+    localStorage.removeItem('Token');
+    localStorage.removeItem('UserInfo');
+    this.router.navigateByUrl('/auth/login');
   }
 }

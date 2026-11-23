@@ -1,0 +1,8 @@
+{
+  "singleQuote": true,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "trailingComma": "all",
+  "endOfLine": "lf",
+  "overrides": [{ "files": "*.html", "options": { "parser": "angular" } }]
+}

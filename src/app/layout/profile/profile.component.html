@@ -1,0 +1,159 @@
+<header class="page-heading">
+  <span>HESABIM</span>
+  <h1>Profilim</h1>
+  <p>Kişisel bilgilerinizi ve iletişim bilgilerinizi yönetin.</p>
+</header>
+<div class="profile-layout">
+  <aside class="profile-summary" aria-label="Profil özeti">
+    <div class="avatar" aria-hidden="true">
+      @if (account.initials()) {
+        {{ account.initials() }}
+      } @else {
+        <mat-icon>person_outline</mat-icon>
+      }
+    </div>
+    <h2>
+      {{
+        account.displayName() === 'Hesabım'
+          ? 'Profilinizi tamamlayın'
+          : account.displayName()
+      }}
+    </h2>
+    <p>{{ account.profile().title || 'Kişisel profil' }}</p>
+    @if (account.profile().department) {
+      <p>{{ account.profile().department }}</p>
+    }
+    <div class="summary-detail">
+      <mat-icon>mail_outline</mat-icon
+      ><span>{{ account.profile().email || 'E-posta henüz eklenmedi' }}</span>
+    </div>
+    <div class="session-note">
+      <mat-icon>info_outline</mat-icon>
+      <p>
+        Bu şablonda bilgiler yalnızca mevcut tarayıcı oturumunda saklanır. Çıkış
+        yaptığınızda temizlenir.
+      </p>
+    </div>
+  </aside>
+  <mat-card appearance="outlined" class="profile-card">
+    <form
+      class="entry-form entry-form-body"
+      [formGroup]="form"
+      (ngSubmit)="save()"
+    >
+      <section class="form-section">
+        <div class="form-section-heading">
+          <mat-icon>person_outline</mat-icon>
+          <div>
+            <h3>Kişisel bilgiler</h3>
+            <p>Profilinizde ve hesap menüsünde görünecek bilgiler.</p>
+          </div>
+        </div>
+        <div class="form-grid">
+          <mat-form-field appearance="outline"
+            ><mat-label>Ad</mat-label
+            ><input
+              matInput
+              formControlName="firstName"
+              autocomplete="given-name"
+              maxlength="60"
+              required
+            /><mat-error
+              >Geçerli bir ad girin (en fazla 60 karakter).</mat-error
+            ></mat-form-field
+          >
+          <mat-form-field appearance="outline"
+            ><mat-label>Soyad</mat-label
+            ><input
+              matInput
+              formControlName="lastName"
+              autocomplete="family-name"
+              maxlength="60"
+              required
+            /><mat-error
+              >Geçerli bir soyad girin (en fazla 60 karakter).</mat-error
+            ></mat-form-field
+          >
+          <mat-form-field appearance="outline"
+            ><mat-label>Birim</mat-label
+            ><input
+              matInput
+              formControlName="department"
+              maxlength="100"
+            /><mat-error
+              >En fazla 100 karakter girebilirsiniz.</mat-error
+            ></mat-form-field
+          >
+          <mat-form-field appearance="outline"
+            ><mat-label>Unvan</mat-label
+            ><input
+              matInput
+              formControlName="title"
+              autocomplete="organization-title"
+              maxlength="100"
+            /><mat-error
+              >En fazla 100 karakter girebilirsiniz.</mat-error
+            ></mat-form-field
+          >
+        </div>
+      </section>
+      <section class="form-section">
+        <div class="form-section-heading">
+          <mat-icon>contact_mail</mat-icon>
+          <div>
+            <h3>İletişim bilgileri</h3>
+            <p>Size ulaşılabilecek e-posta adresi ve telefon numarası.</p>
+          </div>
+        </div>
+        <div class="form-grid">
+          <mat-form-field appearance="outline"
+            ><mat-label>E-posta</mat-label
+            ><input
+              matInput
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              required
+            /><mat-error
+              >Geçerli bir e-posta adresi girin.</mat-error
+            ></mat-form-field
+          >
+          <mat-form-field appearance="outline"
+            ><mat-label>Telefon</mat-label
+            ><input
+              matInput
+              type="tel"
+              formControlName="phone"
+              autocomplete="tel"
+              maxlength="25"
+            /><mat-error
+              >Geçerli bir telefon numarası girin.</mat-error
+            ></mat-form-field
+          >
+        </div>
+      </section>
+      @if (feedback()) {
+        <p class="feedback" [class.error]="failed()" role="status">
+          {{ feedback() }}
+        </p>
+      }
+      <footer class="form-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="reset()"
+          [disabled]="!form.dirty"
+        >
+          Değişiklikleri geri al</button
+        ><button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!form.dirty || form.invalid"
+        >
+          <mat-icon>save</mat-icon>Kaydet
+        </button>
+      </footer>
+    </form>
+  </mat-card>
+</div>

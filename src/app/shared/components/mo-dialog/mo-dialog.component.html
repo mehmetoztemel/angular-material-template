@@ -1,0 +1,84 @@
+@if (data.header) {
+  <header class="dialog-header">
+    <span class="dialog-heading-icon"
+      ><mat-icon>{{
+        data.component || data.card?.component
+          ? 'edit_note'
+          : data.label
+            ? 'help_outline'
+            : 'view_list'
+      }}</mat-icon></span
+    >
+    <div class="dialog-heading">
+      <h2 mat-dialog-title>{{ data.header }}</h2>
+      @if (data.description) {
+        <p>{{ data.description }}</p>
+      }
+    </div>
+    @if (!data.label) {
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Pencereyi kapat"
+        matTooltip="Kapat"
+        (click)="closeDialog(false)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </header>
+}
+<mat-dialog-content class="dialog-content">
+  @if (data.card) {
+    <section class="dialog-card-content">
+      @if (data.card.header) {
+        <h3>{{ data.card.header }}</h3>
+      }
+      @if (data.card.table) {
+        <mo-table
+          [value]="data.card.table"
+          [columns]="data.card.col"
+          [displayedColumns]="data.card.dspCol"
+        ></mo-table>
+      }
+      @if (data.card.label) {
+        <p>{{ data.card.label }}</p>
+      }
+    </section>
+  }
+  @if (data.table) {
+    <div class="dialog-table">
+      <mo-table
+        [value]="data.table"
+        [columns]="data.col"
+        [displayedColumns]="data.dspCol"
+      ></mo-table>
+    </div>
+  }
+  @if (data.label) {
+    <p class="dialog-message">{{ data.label }}</p>
+  }
+  @if (data.component || data.card?.component) {
+    <ng-template #componentHost></ng-template>
+  }
+</mat-dialog-content>
+@if (data.button1 || data.button2) {
+  <mat-dialog-actions class="dialog-action-buttons">
+    @if (data.button2) {
+      <button type="button" mat-stroked-button (click)="closeDialog(false)">
+        {{ data.button2 }}
+      </button>
+    }
+    @if (data.button1) {
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+        [disabled]="data.formGroup?.invalid || data.card?.formGroup?.invalid"
+      >
+        {{ data.button1 }}
+      </button>
+    }
+  </mat-dialog-actions>
+}

@@ -1,5 +1,5 @@
 export interface IResult {
-    Data: any;
-    IsSuccess: boolean;
-    ErrorMessages: string[]
+  Data: any;
+  IsSuccess: boolean;
+  ErrorMessages: string[];
 }

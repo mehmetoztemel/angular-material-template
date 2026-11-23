@@ -1,9 +1,12 @@
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { IResult } from "../models/result";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { IResult } from '../models/result';
 
 export abstract class BaseRestService<T> {
-  constructor(protected http: HttpClient, protected apiUrl: string) { }
+  constructor(
+    protected http: HttpClient,
+    protected apiUrl: string,
+  ) {}
 
   public get(): Observable<IResult> {
     return this.http.get<IResult>(this.apiUrl);

@@ -28,9 +28,10 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { PersonComponent } from './person/person.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CustomTableComponent } from '../shared/components/custom-table/custom-table.component';
+import { SharedUiModule } from '../shared/shared-ui.module';
 import { PersonDetailComponent } from './person/person-detail/person-detail.component';
 import { MenuItemsComponent } from '../app-menu-items/app-menu-items.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MenuItemsComponent } from '../app-menu-items/app-menu-items.component';
     PersonComponent,
     PersonDetailComponent,
     MenuItemsComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -70,7 +72,7 @@ import { MenuItemsComponent } from '../app-menu-items/app-menu-items.component';
     MatTimepickerModule,
     MatCheckboxModule,
     MatTreeModule,
-    CustomTableComponent
-  ]
+    SharedUiModule,
+  ],
 })
-export class LayoutModule { }
+export class LayoutModule {}
